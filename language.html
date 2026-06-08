@@ -1656,107 +1656,117 @@
     </script>
 
     <!-- hero section  -->
+    <!-- hero section  -->
     <script>
-            (function () {
-              "use strict";
+      (function () {
+        "use strict";
 
-              function initHero() {
-                var content = document.querySelector(".hero-content");
-                var formCard = document.querySelector(".hero-form-card");
-                var form = document.getElementById("hero-message-form");
+        function initHero() {
+          var content = document.querySelector(".hero-content");
+          var formCard = document.querySelector(".hero-form-card");
+          var form = document.getElementById("hero-message-form");
 
-                /* Animate in on load — hero is above fold, no scroll needed */
-                if (content)
-                  setTimeout(function () {
-                    content.classList.add("is-visible");
-                  }, 120);
-                if (formCard)
-                  setTimeout(function () {
-                    formCard.classList.add("is-visible");
-                  }, 260);
+          /* Animate in on load — hero is above fold, no scroll needed */
+          if (content)
+            setTimeout(function () {
+              content.classList.add("is-visible");
+            }, 120);
 
-                /* Input focus z-index */
-                var inputs = document.querySelectorAll(
-                  ".hero-card-form input, .hero-card-form textarea",
-                );
-                inputs.forEach(function (input) {
-                  input.addEventListener("focus", function () {
-                    input.parentElement.style.zIndex = "1";
-                  });
-                  input.addEventListener("blur", function () {
-                    input.parentElement.style.zIndex = "";
-                  });
-                });
+          if (formCard)
+            setTimeout(function () {
+              formCard.classList.add("is-visible");
+            }, 260);
 
-                /* Form submit */
-           /* Form submit */
-      if (form) {
-        form.addEventListener("submit", async function (e) {
-          e.preventDefault();
+          /* Input focus z-index */
+          var inputs = document.querySelectorAll(
+            ".hero-card-form input, .hero-card-form textarea",
+          );
 
-          var btn = form.querySelector(".form-submit-btn");
-          var original = btn.textContent;
-
-          btn.textContent = "Sending...";
-          btn.disabled = true;
-          btn.style.opacity = "0.75";
-
-          const formData = {
-            name: document.getElementById("name").value,
-            email: document.getElementById("email").value,
-            phone: document.getElementById("phone").value,
-            subject: document.getElementById("subject").value,
-            message: document.getElementById("message").value,
-          };
-
-          try {
-            const response = await fetch("/api/lead", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(formData),
+          inputs.forEach(function (input) {
+            input.addEventListener("focus", function () {
+              input.parentElement.style.zIndex = "1";
             });
 
-            const result = await response.json();
+            input.addEventListener("blur", function () {
+              input.parentElement.style.zIndex = "";
+            });
+          });
 
-            if (result.success) {
-              btn.textContent = "✓ Sent!";
-              btn.style.background = "#2e7d32";
-              btn.style.borderColor = "#2e7d32";
+          /* Form submit */
+          if (form) {
+            form.addEventListener("submit", async function (e) {
+              e.preventDefault();
 
-              form.reset();
+              var btn = form.querySelector(".form-submit-btn");
+              var original = btn.textContent;
 
-              setTimeout(function () {
-                btn.textContent = original;
-                btn.disabled = false;
-                btn.style.background = "";
-                btn.style.borderColor = "";
+              btn.textContent = "Sending...";
+              btn.disabled = true;
+              btn.style.opacity = "0.75";
+
+              const formData = {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                phone: document.getElementById("phone").value,
+                subject: document.getElementById("subject").value,
+                message: document.getElementById("message").value,
+              };
+
+              try {
+                const response = await fetch("/api/lead", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(formData),
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                  btn.textContent = "✓ Sent!";
+                  btn.style.background = "#2e7d32";
+                  btn.style.borderColor = "#2e7d32";
+                  btn.style.opacity = "1";
+
+                  setTimeout(function () {
+                    form.reset();
+
+                    btn.textContent = original;
+                    btn.disabled = false;
+                    btn.style.background = "";
+                    btn.style.borderColor = "";
+                    btn.style.opacity = "1";
+                  }, 2500);
+                } else {
+                  throw new Error(result.message || "Something went wrong");
+                }
+              } catch (error) {
+                console.error("Lead Submit Error:", error);
+
+                btn.textContent = "Failed!";
+                btn.style.background = "#d32f2f";
+                btn.style.borderColor = "#d32f2f";
                 btn.style.opacity = "1";
-              }, 2500);
-            }
-          } catch (error) {
-            console.error(error);
 
-            btn.textContent = "Failed";
-            btn.style.background = "#d32f2f";
-
-            setTimeout(function () {
-              btn.textContent = original;
-              btn.disabled = false;
-              btn.style.background = "";
-              btn.style.opacity = "1";
-            }, 2500);
-          }
-        });
-      }
-
-              if (document.readyState === "loading") {
-                document.addEventListener("DOMContentLoaded", initHero);
-              } else {
-                initHero();
+                setTimeout(function () {
+                  btn.textContent = original;
+                  btn.disabled = false;
+                  btn.style.background = "";
+                  btn.style.borderColor = "";
+                  btn.style.opacity = "1";
+                }, 2500);
               }
-            })();
+            });
+          }
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initHero);
+        } else {
+          initHero();
+        }
+      })();
     </script>
     <script src="/assets/js/brochure-modal.js"></script>
   </body>
