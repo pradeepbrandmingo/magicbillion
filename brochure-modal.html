@@ -1,0 +1,33 @@
+<div class="brochure-modal-overlay" id="brochureModal" aria-hidden="true">
+  <div class="brochure-modal-container" role="dialog" aria-modal="true" aria-labelledby="brochureModalTitle">
+    <button class="brochure-modal-close" id="brochureModalClose" aria-label="Close modal">&times;</button>
+    
+    <!-- Left panel with the student image -->
+    <div class="brochure-modal-image">
+      <img src="assets/images/girl.png" alt="Student holding books with map background" />
+    </div>
+    
+    <!-- Right panel with the message form -->
+    <div class="brochure-modal-form-wrap">
+      <h3 id="brochureModalTitle">Send Us a Message</h3>
+      <div class="form-title-bar"></div>
+      
+      <form id="brochure-submit-form">
+        <div class="form-row">
+          <input type="text" placeholder="Full Name" required name="name" />
+          <input type="email" placeholder="Email Address" required name="email" />
+        </div>
+        <div class="form-row">
+          <input type="tel" placeholder="Phone Number" required name="phone" />
+          <input type="text" placeholder="Subject" required name="subject" />
+        </div>
+        <div class="form-row full-width">
+          <textarea placeholder="Your Message" rows="4" required name="message"></textarea>
+        </div>
+        <button type="submit" class="btn btn-hero-primary form-submit-btn">
+          Send Message
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
