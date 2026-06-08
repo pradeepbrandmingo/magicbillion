@@ -548,44 +548,49 @@ document.addEventListener('DOMContentLoaded', () => {
       return { cardWidth, maxScroll };
     };
 
-    // Click navigation
+    // Click navigation (Non-looping with dynamic disabled states)
     if (examprepNext) {
       examprepNext.addEventListener('click', () => {
-        const { cardWidth, maxScroll } = getScrollParams();
-        if (examprepTrack.scrollLeft >= maxScroll - 10) {
-          examprepTrack.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          examprepTrack.scrollBy({ left: cardWidth, behavior: 'smooth' });
-        }
+        const { cardWidth } = getScrollParams();
+        examprepTrack.scrollBy({ left: cardWidth, behavior: 'smooth' });
       });
     }
 
     if (examprepPrev) {
       examprepPrev.addEventListener('click', () => {
-        const { cardWidth, maxScroll } = getScrollParams();
-        if (examprepTrack.scrollLeft <= 10) {
-          examprepTrack.scrollTo({ left: maxScroll, behavior: 'smooth' });
-        } else {
-          examprepTrack.scrollBy({ left: -cardWidth, behavior: 'smooth' });
-        }
+        const { cardWidth } = getScrollParams();
+        examprepTrack.scrollBy({ left: -cardWidth, behavior: 'smooth' });
       });
     }
 
-    // Scroll progress bar sync
-    const updateProgressBar = () => {
-      if (!examprepProgress) return;
-      const scrollPct = examprepTrack.scrollLeft / (examprepTrack.scrollWidth - examprepTrack.clientWidth);
-      // Ensure it stays between 0 and 100
-      const safePct = Math.max(0, Math.min(1, isNaN(scrollPct) ? 0 : scrollPct));
-      
-      // The progress-bar width is 40%, so we move the left property from 0% to 60%
-      examprepProgress.style.left = (safePct * 60) + '%';
+    // Scroll progress bar and navigation buttons sync
+    const updateSliderState = () => {
+      // 1. Progress Bar Update
+      if (examprepProgress) {
+        const scrollPct = examprepTrack.scrollLeft / (examprepTrack.scrollWidth - examprepTrack.clientWidth);
+        const safePct = Math.max(0, Math.min(1, isNaN(scrollPct) ? 0 : scrollPct));
+        // The progress-bar width is 40%, so we move the left property from 0% to 60%
+        examprepProgress.style.left = (safePct * 60) + '%';
+      }
+
+      // 2. Buttons Active/Disabled State Update
+      const { maxScroll } = getScrollParams();
+      const scrollLeft = examprepTrack.scrollLeft;
+
+      if (maxScroll <= 10) {
+        if (examprepPrev) examprepPrev.disabled = true;
+        if (examprepNext) examprepNext.disabled = true;
+        return;
+      }
+
+      if (examprepPrev) examprepPrev.disabled = (scrollLeft <= 10);
+      if (examprepNext) examprepNext.disabled = (scrollLeft >= maxScroll - 10);
     };
 
-    examprepTrack.addEventListener('scroll', updateProgressBar, { passive: true });
+    examprepTrack.addEventListener('scroll', updateSliderState, { passive: true });
     
     // Initial call
-    setTimeout(updateProgressBar, 100);
+    setTimeout(updateSliderState, 100);
   }
 
 });

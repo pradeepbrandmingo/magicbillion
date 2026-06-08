@@ -525,7 +525,7 @@ section {
 }
 
 .hero-card-image {
-  flex: 0 0 35%;
+  flex: 0 0 40%;
   overflow: hidden;
   border-radius: 16px 0 0 16px;
 }
@@ -695,10 +695,15 @@ section {
     min-height: auto;
   }
   .hero-card-image {
-    flex: 0 0 220px;
-    height: 220px;
+    display: block;
+    flex: 0 0 250px;
+    height: 250px;
     width: 100%;
     border-radius: 20px 20px 0 0;
+    overflow: hidden;
+  }
+  .hero-card-img {
+    object-position: center 30%;
   }
   .hero-card-form {
     border-radius: 0 0 20px 20px;
@@ -738,8 +743,12 @@ section {
     margin-bottom: 10px;
   }
   .hero-card-image {
-    flex: 0 0 180px;
-    height: 180px;
+    display: block;
+    flex: 0 0 220px;
+    height: 220px;
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    overflow: hidden;
   }
   .hero-card-form {
     padding: 18px 16px;
@@ -973,19 +982,18 @@ section {
   justify-content: center;
   cursor: pointer;
   transition: var(--transition);
-}
-
-.exam-prep-nav .slider-arrow.prev {
-  background: #a5c3cd;
-  color: var(--white);
-}
-
-.exam-prep-nav .slider-arrow.next {
   background: #2a6171;
   color: var(--white);
 }
 
-.exam-prep-nav .slider-arrow:hover {
+.exam-prep-nav .slider-arrow:disabled {
+  background: #a5c3cd;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.exam-prep-nav .slider-arrow:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(42, 97, 113, 0.2);
 }
@@ -1392,9 +1400,9 @@ section {
 
 .why-choose-container {
   display: grid;
-  grid-template-columns: 1.15fr 0.9fr 1.15fr;
+  grid-template-columns: 1fr 1.5fr;
   gap: 40px;
-  align-items: stretch;
+  align-items: center;
 }
 
 .why-choose-left {
@@ -1466,8 +1474,7 @@ section {
 
 .portrait-card {
   width: 100%;
-  height: 100%;
-  min-height: 400px;
+  height: 400px;
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-md);
@@ -1894,8 +1901,12 @@ section {
   }
 
   .hero-card-image {
+    display: block;
     flex: 0 0 160px;
     height: 160px;
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    overflow: hidden;
   }
 
   .hero-card-img {
@@ -2297,6 +2308,7 @@ section {
   }
 }
 
+/* 7 */
 /* ============================================================
    TESTIMONIALS SECTION
 ============================================================ */
@@ -2481,6 +2493,38 @@ section {
   border-radius: 4px;
 }
 
+.testi-avatar {
+  width: 72px;
+  height: 72px;
+  margin: -24px auto 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d62849, #ef476f);
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px #d62849;
+  text-transform: uppercase;
+}
+
+.testi-avatar img {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .testi-section {
+    padding-top: 30px !important;
+    margin-top: 0 !important;
+  }
+
+  .testi-top {
+    margin-top: 0 !important;
+  }
+}
+
 /* ============================================================
    TABLET — 2 cards visible, slide 1 card at a time
 ============================================================ */
@@ -2511,6 +2555,7 @@ section {
     margin-top: 28px;
   }
 }
+
 
 /* ============================
    FOOTER
@@ -2578,6 +2623,16 @@ section {
   font-size: 0.8rem;
   color: #555;
   line-height: 1.65;
+}
+
+.footer-email-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.22s ease;
+}
+
+.footer-email-link:hover {
+  color: var(--primary);
 }
 
 /* --- Link Columns --- */

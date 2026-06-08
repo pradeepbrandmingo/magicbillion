@@ -170,7 +170,7 @@ section {
   z-index: 1000;
   padding-top: 18px;
   background: #ffffff; /* CHANGE: transparent → #ffffff */
- 
+
   transition:
     background 0.3s ease,
     box-shadow 0.3s ease;
@@ -332,7 +332,6 @@ section {
   text-align: center;
   padding: 12px 24px;
 }
-
 
 /* ============================================================
    HERO SECTION — matches Figma ref UI exactly
@@ -541,7 +540,7 @@ section {
   background: #eef5f8;
 }
 .hero-card-image {
-  flex: 0 0 35%;
+  flex: 0 0 40%;
   overflow: hidden;
   border-radius: 16px 0 0 16px;
 }
@@ -715,13 +714,17 @@ section {
     flex-direction: column;
     overflow: hidden;
     min-height: auto;
+    padding: 0 !important;
   }
   .hero-card-image {
+    display: block;
     flex: 0 0 220px;
     height: 220px;
-    width: 100%;
-    margin: 0;
-    border-radius: 20px 20px 0 0;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 20px 20px 0 0 !important;
+    overflow: hidden !important;
   }
   .hero-card-form {
     border-radius: 0 0 20px 20px;
@@ -762,8 +765,14 @@ section {
     margin-bottom: 10px;
   }
   .hero-card-image {
+    display: block !important;
     flex: 0 0 180px;
     height: 180px;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 20px 20px 0 0 !important;
+    overflow: hidden !important;
   }
   .hero-card-form {
     padding: 18px 16px;
@@ -2585,6 +2594,11 @@ section {
    TESTIMONIALS SECTION
 ============================================================ */
 
+/* 7 */
+/* ============================================================
+   TESTIMONIALS SECTION
+============================================================ */
+
 .testi-section {
   background: var(--white);
   padding: 50px 40px 60px;
@@ -2763,6 +2777,38 @@ section {
   background: var(--primary);
   width: 24px;
   border-radius: 4px;
+}
+
+.testi-avatar {
+  width: 72px;
+  height: 72px;
+  margin: -24px auto 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d62849, #ef476f);
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px #d62849;
+  text-transform: uppercase;
+}
+
+.testi-avatar img {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .testi-section {
+    padding-top: 30px !important;
+    margin-top: 0 !important;
+  }
+
+  .testi-top {
+    margin-top: 0 !important;
+  }
 }
 
 /* ============================================================
@@ -3555,17 +3601,25 @@ section {
   .hero-form-card {
     flex-direction: column;
     height: auto;
+    padding: 0 !important;
   }
 
   .hero-card-image {
+    display: block !important;
     flex: 0 0 160px;
     height: 160px;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 20px 20px 0 0 !important;
+    overflow: hidden !important;
   }
 
   .hero-card-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block;
   }
 
   .hero-card-form {
@@ -4135,6 +4189,16 @@ section {
   line-height: 1.65;
 }
 
+.footer-email-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.22s ease;
+}
+
+.footer-email-link:hover {
+  color: var(--primary);
+}
+
 /* --- Link Columns --- */
 .footer-col {
 }
@@ -4381,6 +4445,7 @@ section {
     transform 0.4s ease,
     box-shadow 0.4s ease;
   will-change: transform, opacity;
+  overflow: hidden;
 }
 
 .journey-card {
@@ -4390,6 +4455,13 @@ section {
 .journey-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 24px 60px rgba(206, 41, 69, 0.24);
+}
+
+.journey-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* ============================================================

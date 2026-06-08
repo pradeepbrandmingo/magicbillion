@@ -2353,6 +2353,27 @@ button.about-btn {
   }
 }
 
+.journey-card {
+  flex-shrink: 0;
+  width: 480px;
+  height: 236px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #000;
+}
+
+.journey-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* pura video dikhega */
+  display: block;
+}
+.journey-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 /* ============================
    FOOTER
 ============================ */
@@ -2419,6 +2440,16 @@ button.about-btn {
   font-size: 0.8rem;
   color: #555;
   line-height: 1.65;
+}
+
+.footer-email-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.22s ease;
+}
+
+.footer-email-link:hover {
+  color: var(--primary);
 }
 
 /* --- Link Columns --- */

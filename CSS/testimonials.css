@@ -1297,6 +1297,16 @@ body {
   line-height: 1.65;
 }
 
+.footer-email-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.22s ease;
+}
+
+.footer-email-link:hover {
+  color: var(--primary);
+}
+
 /* --- Link Columns --- */
 .footer-col {
 }
@@ -1655,6 +1665,16 @@ body {
   font-size: 0.8rem;
   color: #555;
   line-height: 1.65;
+}
+
+.footer-email-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.22s ease;
+}
+
+.footer-email-link:hover {
+  color: var(--primary);
 }
 
 /* --- Link Columns --- */
