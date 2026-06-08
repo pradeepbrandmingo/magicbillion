@@ -115,6 +115,52 @@
         form.addEventListener("submit", async (e) => {
           e.preventDefault();
 
+          // ---- Validation ----
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          const phoneRegex = /^[6-9]\d{9}$/;
+
+          const fields = {
+            name: form.querySelector('[name="name"]'),
+            email: form.querySelector('[name="email"]'),
+            phone: form.querySelector('[name="phone"]'),
+            subject: form.querySelector('[name="subject"]'),
+            message: form.querySelector('[name="message"]'),
+          };
+
+          Object.values(fields).forEach((el) => (el.style.borderColor = ""));
+
+          let isValid = true;
+
+          if (!fields.name.value.trim()) {
+            fields.name.style.borderColor = "red";
+            isValid = false;
+          }
+          if (
+            !fields.email.value.trim() ||
+            !emailRegex.test(fields.email.value.trim())
+          ) {
+            fields.email.style.borderColor = "red";
+            isValid = false;
+          }
+          if (
+            !fields.phone.value.trim() ||
+            !phoneRegex.test(fields.phone.value.trim())
+          ) {
+            fields.phone.style.borderColor = "red";
+            isValid = false;
+          }
+          if (!fields.subject.value.trim()) {
+            fields.subject.style.borderColor = "red";
+            isValid = false;
+          }
+          if (!fields.message.value.trim()) {
+            fields.message.style.borderColor = "red";
+            isValid = false;
+          }
+
+          if (!isValid) return;
+          // ---- Validation End ----
+
           const submitBtn = form.querySelector(".form-submit-btn");
           if (!submitBtn) return;
 
