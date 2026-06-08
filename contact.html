@@ -841,24 +841,26 @@
 
           animEls.forEach((el) => observer.observe(el));
         } else {
-          // Fallback: show all immediately
           animEls.forEach((el) => el.classList.add("is-visible"));
         }
 
-        // ---- Form Submit Handler ----
+        // ---- Contact Form Submit ----
         const form = document.getElementById("contactForm");
+
         if (form) {
-          form.addEventListener("submit", function (e) {
+          form.addEventListener("submit", async function (e) {
             e.preventDefault();
 
             const btn = form.querySelector(".cfs-submit-btn");
             const originalText = btn.textContent;
 
-            // Simple validation
+            // Validation
             const required = form.querySelectorAll("[required]");
             let valid = true;
+
             required.forEach((field) => {
               field.style.borderColor = "";
+
               if (!field.value.trim()) {
                 field.style.borderColor = "var(--primary)";
                 valid = false;
@@ -867,11 +869,32 @@
 
             if (!valid) return;
 
-            // Simulate sending
-            btn.textContent = "Sending…";
+            btn.textContent = "Sending...";
             btn.disabled = true;
 
-            setTimeout(() => {
+            try {
+              const formData = {
+                name: form.querySelector('[name="fullName"]').value,
+                email: form.querySelector('[name="email"]').value,
+                phone: form.querySelector('[name="phone"]').value,
+                subject: form.querySelector('[name="subject"]').value,
+                message: form.querySelector('[name="message"]').value,
+                course: form.querySelector('[name="course"]').value,
+                source: "Contact Us Page",
+              };
+
+              const response = await fetch("/api/lead", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+              });
+
+              const result = await response.json();
+
+              console.log("Contact Lead:", result);
+
               btn.textContent = "Message Sent ✓";
               btn.style.background = "#28a745";
               btn.style.borderColor = "#28a745";
@@ -883,7 +906,16 @@
                 btn.disabled = false;
                 form.reset();
               }, 3000);
-            }, 1200);
+            } catch (error) {
+              console.error("Error:", error);
+
+              btn.textContent = "Failed!";
+
+              setTimeout(() => {
+                btn.textContent = originalText;
+                btn.disabled = false;
+              }, 3000);
+            }
           });
         }
       })();
