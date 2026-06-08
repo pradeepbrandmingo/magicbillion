@@ -114,19 +114,20 @@
 
             <form id="hero-message-form" novalidate>
               <div class="form-row">
-                <input type="text" placeholder="Full Name" required />
-                <input type="email" placeholder="Email Address" required />
+              <input type="text" name="name" placeholder="Full Name" required />
+              <input type="email" name="email" placeholder="Email Address" required />
               </div>
               <div class="form-row">
-                <input type="tel" placeholder="Phone Number" required />
-                <input type="text" placeholder="Subject" required />
+                <input type="tel" name="phone" placeholder="Phone Number" required />
+                <input type="text" name="subject" placeholder="Subject" required />
               </div>
               <div class="form-row full-width">
-                <textarea
-                  placeholder="Your Message"
-                  rows="4"
-                  required
-                ></textarea>
+               <textarea
+               name="message"
+               placeholder="Your Message"
+               rows="4"
+               required
+               ></textarea>
               </div>
               <button
                 type="submit"
@@ -1933,77 +1934,107 @@ Entry-level salaries: €25,000–40,000 (₹22–35 LPA) for fresh graduates.
     </script>
 
     <!-- hero section -->
-    <script>
-      (function () {
-        "use strict";
+<script>
+(function () {
+  "use strict";
 
-        function initHero() {
-          const content = document.querySelector(".hero-content");
-          const formCard = document.querySelector(".hero-form-card");
-          const form = document.getElementById("hero-message-form");
+  function initHero() {
+    const content = document.querySelector(".hero-content");
+    const formCard = document.querySelector(".hero-form-card");
+    const form = document.getElementById("hero-message-form");
 
-          /* ── Animate in on load (no scroll needed — hero is above fold) ── */
-          if (content) {
-            /* Small delay so page paint finishes first */
-            setTimeout(() => content.classList.add("is-visible"), 120);
-          }
-          if (formCard) {
-            setTimeout(() => formCard.classList.add("is-visible"), 260);
-          }
+    if (content) {
+      setTimeout(() => content.classList.add("is-visible"), 120);
+    }
 
-          /* ── Input focus: subtle label-like animation ── */
-          const inputs = document.querySelectorAll(
-            ".hero-card-form input, .hero-card-form textarea",
-          );
-          inputs.forEach((input) => {
-            input.addEventListener("focus", () => {
-              input.parentElement.style.zIndex = "1";
-            });
-            input.addEventListener("blur", () => {
-              input.parentElement.style.zIndex = "";
-            });
+    if (formCard) {
+      setTimeout(() => formCard.classList.add("is-visible"), 260);
+    }
+
+    const inputs = document.querySelectorAll(
+      ".hero-card-form input, .hero-card-form textarea"
+    );
+
+    inputs.forEach((input) => {
+      input.addEventListener("focus", () => {
+        input.parentElement.style.zIndex = "1";
+      });
+
+      input.addEventListener("blur", () => {
+        input.parentElement.style.zIndex = "";
+      });
+    });
+
+    if (form) {
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const btn = form.querySelector(".form-submit-btn");
+        const original = btn.textContent;
+
+        btn.textContent = "Sending...";
+        btn.disabled = true;
+        btn.style.opacity = "0.75";
+
+        try {
+          const formData = {
+            name: form.querySelector('[name="name"]').value,
+            email: form.querySelector('[name="email"]').value,
+            phone: form.querySelector('[name="phone"]').value,
+            subject: form.querySelector('[name="subject"]').value,
+            message: form.querySelector('[name="message"]').value,
+            source: "Global Degree Program"
+          };
+
+          const response = await fetch("/api/lead", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
           });
 
-          /* ── Form submit ── */
-          if (form) {
-            form.addEventListener("submit", (e) => {
-              e.preventDefault();
+          const result = await response.json();
 
-              const btn = form.querySelector(".form-submit-btn");
-              const original = btn.textContent;
+          console.log("Lead Submitted:", result);
 
-              /* Sending state */
-              btn.textContent = "Sending…";
-              btn.disabled = true;
-              btn.style.opacity = "0.75";
+          btn.textContent = "✓ Sent!";
+          btn.style.background = "#2e7d32";
+          btn.style.borderColor = "#2e7d32";
+          btn.style.opacity = "1";
 
-              /* Simulate API call */
-              setTimeout(() => {
-                btn.textContent = "✓ Sent!";
-                btn.style.background = "#2e7d32";
-                btn.style.borderColor = "#2e7d32";
-                btn.style.opacity = "1";
+          setTimeout(() => {
+            form.reset();
+            btn.textContent = original;
+            btn.disabled = false;
+            btn.style.background = "";
+            btn.style.borderColor = "";
+          }, 2500);
 
-                /* Reset after 2.5s */
-                setTimeout(() => {
-                  form.reset();
-                  btn.textContent = original;
-                  btn.disabled = false;
-                  btn.style.background = "";
-                  btn.style.borderColor = "";
-                }, 2500);
-              }, 1200);
-            });
-          }
+        } catch (error) {
+          console.error("Error:", error);
+
+          btn.textContent = "Failed!";
+          btn.style.background = "#d32f2f";
+
+          setTimeout(() => {
+            btn.textContent = original;
+            btn.disabled = false;
+            btn.style.background = "";
+            btn.style.opacity = "1";
+          }, 2500);
         }
+      });
+    }
+  }
 
-        if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", initHero);
-        } else {
-          initHero();
-        }
-      })();
-    </script>
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initHero);
+  } else {
+    initHero();
+  }
+})();
+</script>
 
     <!--  -->
     <script>
