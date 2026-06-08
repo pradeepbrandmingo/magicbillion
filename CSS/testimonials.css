@@ -98,7 +98,7 @@ body {
   z-index: 1000;
   padding-top: 18px;
   background: #ffffff; /* CHANGE: transparent → #ffffff */
- 
+
   transition:
     background 0.3s ease,
     box-shadow 0.3s ease;
@@ -260,7 +260,6 @@ body {
   text-align: center;
   padding: 12px 24px;
 }
-
 
 /* ---- TABLET ---- */
 @media (max-width: 768px) {
@@ -652,15 +651,12 @@ body {
   }
 }
 
-/* ==========================================================================
-   6. PART 3: REVOLUTIONARY ACCORDION IFRAME EXPANSION VIDEO SLIDER
-   ========================================================================== */
+/* ── existing styles unchanged ── */
 .success-slider-section {
   max-width: 1200px;
   margin: 6.5rem auto;
   padding: 0 1.5rem;
 }
-
 .slider-header-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -668,7 +664,6 @@ body {
   margin-bottom: 3.5rem;
   align-items: flex-end;
 }
-
 .slider-tagline {
   display: block;
   font-size: 0.85rem;
@@ -677,13 +672,11 @@ body {
   color: var(--primary-brand-color);
   margin-bottom: 0.5rem;
 }
-
 .slider-main-title {
   font-size: clamp(2rem, 3.5vw, 2.6rem);
   color: var(--primary-brand-color);
   font-weight: 700;
 }
-
 .slider-header-para {
   color: var(--primary-brand-color);
   font-weight: 500;
@@ -697,29 +690,23 @@ body {
   width: 100%;
   height: 460px;
 }
-
 .slider-slot {
   position: relative;
   flex: 0.8;
   border-radius: 24px;
   overflow: hidden;
   height: 100%;
-  cursor: pointer;
   transition: flex 0.75s cubic-bezier(0.25, 1, 0.2, 1);
   background-color: #000000;
 }
-
 .slider-slot.slot-expanded {
   flex: 3.2;
-  cursor: default;
 }
-
 .slot-video-container {
   width: 100%;
   height: 100%;
   position: relative;
 }
-
 .slot-video-iframe {
   position: absolute;
   top: 0;
@@ -729,7 +716,6 @@ body {
   border: none;
   display: block;
 }
-
 .slot-next-action-trigger {
   position: absolute;
   bottom: 24px;
@@ -750,17 +736,85 @@ body {
   transition: var(--transition-fluid-engine);
   z-index: 10;
 }
-
 .slider-slot.slot-expanded .slot-next-action-trigger {
   opacity: 1;
   transform: translate(0, 0);
 }
-
 .slot-next-action-trigger:hover {
   background-color: #ac1e36;
   transform: scale(1.08);
 }
 
+/* MOBILE SLIDER - FIXED */
+.mobile-video-slider {
+  display: none;
+  width: 100%;
+}
+
+.mobile-slides-track {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9; /* ← padding-bottom trick hatao, ye use karo */
+  border-radius: 18px;
+  overflow: hidden;
+  background: #000;
+}
+
+.mobile-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+.mobile-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-slide iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.mobile-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.mobile-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.2);
+  transition: background 0.3s;
+  cursor: pointer;
+}
+
+.mobile-dot.active {
+  background: var(--primary-brand-color);
+}
+
+@media (max-width: 768px) {
+  .accordion-slider-wrapper {
+    display: none !important; /* ← !important add karo */
+  }
+  .mobile-video-slider {
+    display: block !important; /* ← !important add karo */
+  }
+  .slider-header-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
 /* ==========================================================================
    7. PART 4: STUDENT TESTIMONIAL GRID STRUCTURES
    ========================================================================== */
@@ -947,6 +1001,38 @@ body {
   background: var(--primary);
   width: 24px;
   border-radius: 4px;
+}
+
+.testi-avatar {
+  width: 72px;
+  height: 72px;
+  margin: -24px auto 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d62849, #ef476f);
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px #d62849;
+  text-transform: uppercase;
+}
+
+.testi-avatar img {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .testi-section {
+    padding-top: 30px !important;
+    margin-top: 0 !important;
+  }
+
+  .testi-top {
+    margin-top: 0 !important;
+  }
 }
 
 /* ============================================================

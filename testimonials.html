@@ -88,7 +88,7 @@
           <div class="main-video-frame">
             <iframe
               class="video-iframe-embed"
-              src="https://www.youtube.com/embed/nqymdCekaIE?rel=0&showinfo=0&autoplay=0"
+              src="https://www.youtube.com/embed/ini3n09sYjA"
               title="Magic Billion Global Experience Primary Feature Video"
               allow="
                 accelerometer;
@@ -203,13 +203,15 @@
         </div>
       </div>
 
+      <!-- DESKTOP ACCORDION SLIDER -->
       <div class="accordion-slider-wrapper" id="accordionSlider">
-        <div class="slider-slot slot-expanded" data-index="0">
+        <div class="slider-slot slot-expanded">
           <div class="slot-video-container">
             <iframe
               class="slot-video-iframe"
-              src="https://www.youtube.com/embed/1nvajcPtmtg?rel=0&showinfo=0&controls=1"
-              title="Candidate Testimonial Slot 1"
+              id="mainSlotIframe"
+              src="https://www.youtube.com/embed/1nvajcPtmtg?rel=0&controls=1"
+              title="Candidate Testimonial"
               allow="
                 accelerometer;
                 autoplay;
@@ -219,23 +221,24 @@
                 picture-in-picture;
               "
               allowfullscreen
-            >
-            </iframe>
+            ></iframe>
           </div>
           <button
             class="slot-next-action-trigger"
-            aria-label="Execute slider shift transformation forward"
+            id="sliderNextBtn"
+            aria-label="Next video"
           >
             <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
 
-        <div class="slider-slot" data-index="1">
+        <div class="slider-slot">
           <div class="slot-video-container">
             <iframe
               class="slot-video-iframe"
-              src="https://www.youtube.com/embed/XnR33D_bL7E?rel=0&showinfo=0&controls=1"
-              title="Candidate Testimonial Slot 2"
+              id="slot2Iframe"
+              src="https://www.youtube.com/embed/j5e9QoGaqAo?rel=0&controls=1"
+              title="Candidate Testimonial 2"
               allow="
                 accelerometer;
                 autoplay;
@@ -245,23 +248,17 @@
                 picture-in-picture;
               "
               allowfullscreen
-            >
-            </iframe>
+            ></iframe>
           </div>
-          <button
-            class="slot-next-action-trigger"
-            aria-label="Execute slider shift transformation forward"
-          >
-            <i class="fa-solid fa-arrow-right"></i>
-          </button>
         </div>
 
-        <div class="slider-slot" data-index="2">
+        <div class="slider-slot">
           <div class="slot-video-container">
             <iframe
               class="slot-video-iframe"
-              src="https://www.youtube.com/embed/wdj5eP14SEM?rel=0&showinfo=0&controls=1"
-              title="Candidate Testimonial Slot 3"
+              id="slot3Iframe"
+              src="https://www.youtube.com/embed/XnR33D_bL7E?rel=0&controls=1"
+              title="Candidate Testimonial 3"
               allow="
                 accelerometer;
                 autoplay;
@@ -271,15 +268,91 @@
                 picture-in-picture;
               "
               allowfullscreen
-            >
-            </iframe>
+            ></iframe>
           </div>
-          <button
-            class="slot-next-action-trigger"
-            aria-label="Execute slider shift transformation forward"
-          >
-            <i class="fa-solid fa-arrow-right"></i>
-          </button>
+        </div>
+      </div>
+
+      <!-- MOBILE SLIDER -->
+      <div class="mobile-video-slider" id="mobileVideoSlider">
+        <div class="mobile-slides-track" id="mobileSlidesTrack">
+          <div class="mobile-slide active">
+            <iframe
+              src="https://www.youtube.com/embed/1nvajcPtmtg?rel=0&controls=1"
+              allow="
+                accelerometer;
+                autoplay;
+                clipboard-write;
+                encrypted-media;
+                gyroscope;
+                picture-in-picture;
+              "
+              allowfullscreen
+            ></iframe>
+          </div>
+          <div class="mobile-slide">
+            <iframe
+              src="https://www.youtube.com/embed/j5e9QoGaqAo?rel=0&controls=1"
+              allow="
+                accelerometer;
+                autoplay;
+                clipboard-write;
+                encrypted-media;
+                gyroscope;
+                picture-in-picture;
+              "
+              allowfullscreen
+            ></iframe>
+          </div>
+          <div class="mobile-slide">
+            <iframe
+              src="https://www.youtube.com/embed/XnR33D_bL7E?rel=0&controls=1"
+              allow="
+                accelerometer;
+                autoplay;
+                clipboard-write;
+                encrypted-media;
+                gyroscope;
+                picture-in-picture;
+              "
+              allowfullscreen
+            ></iframe>
+          </div>
+          <div class="mobile-slide">
+            <iframe
+              src="https://www.youtube.com/embed/78Ci-UwHujw?rel=0&controls=1"
+              allow="
+                accelerometer;
+                autoplay;
+                clipboard-write;
+                encrypted-media;
+                gyroscope;
+                picture-in-picture;
+              "
+              allowfullscreen
+            ></iframe>
+          </div>
+          <div class="mobile-slide">
+            <iframe
+              src="https://www.youtube.com/embed/wdj5eP14SEM?rel=0&controls=1"
+              allow="
+                accelerometer;
+                autoplay;
+                clipboard-write;
+                encrypted-media;
+                gyroscope;
+                picture-in-picture;
+              "
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+        <div class="mobile-dots" id="mobileDots">
+          <span class="mobile-dot active"></span>
+          <span class="mobile-dot"></span>
+          <span class="mobile-dot"></span>
+          <span class="mobile-dot"></span>
+          <span class="mobile-dot"></span>
         </div>
       </div>
     </section>
@@ -287,7 +360,7 @@
     <section class="testi-section" id="testimonials">
       <!-- Header — ADD THIS -->
       <div class="testi-top">
-        <span class="testi-subtitle">Lorem Ipsum</span>
+        <span class="testi-subtitle">REAL STUDENT EXPERIENCES</span>
         <h2 class="testi-title">Student Testimonials</h2>
       </div>
 
@@ -296,56 +369,62 @@
         <div class="testi-track" id="testiTrack">
           <!-- Card 1 -->
           <div class="testi-card">
-            <div class="testi-avatar">
+            <!-- <div class="testi-avatar">
               <img
                 src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop"
                 alt="James Pattinson"
               />
-            </div>
+            </div> -->
+            <div class="testi-avatar">R</div>
             <div class="testi-stars">
               <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
               <i class="fa-regular fa-star"></i>
             </div>
             <p class="testi-quote">
-              "Lobortis leo pretium facilisis amet nisl at nec. Scelerisque
-              risus tortor donec ipsum consequat semper consequat adipiscing
-              ultrices."
+              "Learning German stopped feeling intimidating. The friendly
+              environment encouraged me to participate, make mistakes, and
+              improve without hesitation."
             </p>
-            <h4 class="testi-name">James Pattinson</h4>
-            <span class="testi-role">Language Program</span>
+            <h4 class="testi-name">Rohan Verma</h4>
+            <span class="testi-role">German Language Program</span>
           </div>
 
           <!-- Card 2 -->
           <div class="testi-card">
-            <div class="testi-avatar">
-              <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop"
-                alt="Greg Stuart"
-              />
-            </div>
+            <!-- <div class="testi-avatar">
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop"
+                  alt="Greg Stuart"
+                />
+              </div> -->
+            <div class="testi-avatar">A</div>
+            <!-- Ananya Sharma -->
+
             <div class="testi-stars">
               <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
             </div>
             <p class="testi-quote">
-              "Vestibulum, cum nam non amet consectetur morbi aenean condimentum
-              eget. Ultrices integer nunc neque accumsan laoreet. Viverra nibh
-              ultrices."
+              "The support from the trainers meant a lot. Whenever I struggled
+              with pronunciation or grammar, they patiently guided me and kept
+              me motivated."
             </p>
-            <h4 class="testi-name">Greg Stuart</h4>
-            <span class="testi-role">Global Degree Program</span>
+            <h4 class="testi-name">Ananya Sharma</h4>
+            <span class="testi-role">German Language Program</span>
           </div>
 
           <!-- Card 3 -->
           <div class="testi-card">
-            <div class="testi-avatar">
+            <!-- <div class="testi-avatar">
               <img
                 src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop"
                 alt="Trevor Mitchell"
               />
-            </div>
+            </div> -->
+            <div class="testi-avatar">A</div>
+            <!-- Aarav Mehta -->
             <div class="testi-stars">
               <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
@@ -353,78 +432,87 @@
               ><i class="fa-regular fa-star"></i>
             </div>
             <p class="testi-quote">
-              "Ut tristique viverra sed porttitor senectus. A facilisis metus
-              pretium ut habitant lorem. Velit vel bibendum eget aliquet sem
-              nec, id sed. Tincidunt."
+              "I was surprised by how quickly I started understanding German.
+              The trainers made every concept easy to follow, and each class
+              built my confidence step by step"
             </p>
-            <h4 class="testi-name">Trevor Mitchell</h4>
-            <span class="testi-role">Language Program</span>
+            <h4 class="testi-name">Aarav Mehta</h4>
+            <span class="testi-role">German Language Program</span>
           </div>
 
           <!-- Card 4 -->
           <div class="testi-card">
-            <div class="testi-avatar">
+            <!-- <div class="testi-avatar">
               <img
                 src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"
                 alt="Priya Sharma"
               />
-            </div>
+            </div> -->
+
+            <div class="testi-avatar">P</div>
+            <!-- Priya Kapoor -->
+
             <div class="testi-stars">
               <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
             </div>
             <p class="testi-quote">
-              "Amazing experience! The program helped me land my dream job
-              abroad. The mentors were incredibly supportive throughout the
-              entire journey."
+              "I actually looked forward to every class. The interactive
+              sessions and practical speaking exercises kept me engaged
+              throughout my learning journey."
             </p>
-            <h4 class="testi-name">Priya Sharma</h4>
-            <span class="testi-role">Global Degree Program</span>
+            <h4 class="testi-name">Priya Kapoor</h4>
+            <span class="testi-role">German Language Program</span>
           </div>
 
           <!-- Card 5 -->
           <div class="testi-card">
-            <div class="testi-avatar">
+            <!-- <div class="testi-avatar">
               <img
                 src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=crop"
                 alt="Sarah Collins"
               />
-            </div>
+            </div> -->
+            <div class="testi-avatar">K</div>
+            <!-- Kunal Singh -->
+
             <div class="testi-stars">
               <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
               <i class="fa-regular fa-star"></i>
             </div>
             <p class="testi-quote">
-              "The global exposure I gained through this program was unmatched.
-              I now work with international clients confidently. Truly
-              life-changing!"
+              "The journey felt personal, not just academic. The trainers
+              genuinely cared about our progress and supported us at every
+              stage."
             </p>
-            <h4 class="testi-name">Sarah Collins</h4>
-            <span class="testi-role">Language Program</span>
+            <h4 class="testi-name">Kunal Singh</h4>
+            <span class="testi-role">German Language Program</span>
           </div>
 
           <!-- Card 6 -->
           <div class="testi-card">
-            <div class="testi-avatar">
+            <!-- <div class="testi-avatar">
               <img
                 src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop"
                 alt="Ananya Verma"
               />
-            </div>
+            </div> -->
+            <div class="testi-avatar">S</div>
+            <!-- Sneha Gupta -->
             <div class="testi-stars">
               <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
             </div>
             <p class="testi-quote">
-              "From day one, the curriculum was structured and practical. I
-              gained real-world skills that no textbook could have taught me.
-              Highly recommended!"
+              ""When I compare myself to day one, the difference is incredible.
+              I can now understand and communicate in German with much greater
+              confidence."
             </p>
-            <h4 class="testi-name">Ananya Verma</h4>
-            <span class="testi-role">Global Degree Program</span>
+            <h4 class="testi-name">Sneha Gupta</h4>
+            <span class="testi-role">German Language Program</span>
           </div>
         </div>
       </div>
@@ -437,7 +525,7 @@
       ></div>
     </section>
 
-    <section class="metrics-parents-section">
+    <!-- <section class="metrics-parents-section">
       <div class="dual-grid-container">
         <div class="map-showcase-panel">
           <div class="map-inner-wrapper">
@@ -501,7 +589,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <!-- ===== FOOTER ===== -->
     <footer class="footer">
@@ -945,6 +1033,63 @@
         stats.forEach(function (el) {
           obs.observe(el);
         });
+      })();
+    </script>
+
+    <!-- video section  -->
+    /* ── DESKTOP ACCORDION LOOP SLIDER ── */
+    <script>
+      (function () {
+        const videos = [
+          "https://www.youtube.com/embed/1nvajcPtmtg?rel=0&controls=1",
+          "https://www.youtube.com/embed/j5e9QoGaqAo?rel=0&controls=1",
+          "https://www.youtube.com/embed/XnR33D_bL7E?rel=0&controls=1",
+          "https://www.youtube.com/embed/78Ci-UwHujw?rel=0&controls=1",
+          "https://www.youtube.com/embed/wdj5eP14SEM?rel=0&controls=1",
+        ];
+        let cur = 0;
+        const main = document.getElementById("mainSlotIframe");
+        const slot2 = document.getElementById("slot2Iframe");
+        const slot3 = document.getElementById("slot3Iframe");
+        const btn = document.getElementById("sliderNextBtn");
+
+        if (btn) {
+          btn.addEventListener("click", function () {
+            cur = (cur + 1) % videos.length;
+            main.src = videos[cur];
+            slot2.src = videos[(cur + 1) % videos.length];
+            slot3.src = videos[(cur + 2) % videos.length];
+          });
+        }
+      })();
+
+      /* ── MOBILE AUTO LOOP SLIDER ── */
+      (function () {
+        const slides = document.querySelectorAll(
+          "#mobileVideoSlider .mobile-slide",
+        );
+        const dots = document.querySelectorAll("#mobileDots .mobile-dot");
+        let mCur = 0;
+
+        function goTo(n) {
+          slides[mCur].classList.remove("active");
+          dots[mCur].classList.remove("active");
+          mCur = n % slides.length;
+          slides[mCur].classList.add("active");
+          dots[mCur].classList.add("active");
+        }
+
+        /* dot click */
+        dots.forEach(function (dot, i) {
+          dot.addEventListener("click", function () {
+            goTo(i);
+          });
+        });
+
+        /* auto play every 4 seconds */
+        setInterval(function () {
+          goTo(mCur + 1);
+        }, 4000);
       })();
     </script>
   </body>

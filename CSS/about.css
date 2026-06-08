@@ -44,7 +44,7 @@ body {
   z-index: 1000;
   padding-top: 18px;
   background: #ffffff; /* CHANGE: transparent → #ffffff */
- 
+
   transition:
     background 0.3s ease,
     box-shadow 0.3s ease;
@@ -936,13 +936,13 @@ button.about-btn {
 
 /* ---- Icon ---- */
 .apart-icon {
-  width: 90px;
-  height: 90px;
+  width: 110px;
+  height: 110px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--primary);
-  font-size: 2.6rem;
+  font-size: 3.2rem;
   transition:
     transform 0.35s ease,
     color 0.35s ease;
