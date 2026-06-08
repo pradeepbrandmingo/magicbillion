@@ -134,6 +134,7 @@
                   name="phone"
                   placeholder="Phone Number"
                   class="cfs-input"
+                  maxlength="10"
                 />
               </div>
               <div class="cfs-field">
@@ -844,6 +845,63 @@
           animEls.forEach((el) => el.classList.add("is-visible"));
         }
 
+        // ---- Validation Helper ----
+        function validateForm(form) {
+          let valid = true;
+
+          // Reset all borders first
+          form.querySelectorAll(".cfs-input, .cfs-textarea").forEach((el) => {
+            el.style.borderColor = "";
+          });
+
+          const getValue = (name) =>
+            (form.querySelector(`[name="${name}"]`)?.value || "").trim();
+
+          // Full Name — required
+          const name = getValue("fullName");
+          if (!name) {
+            form.querySelector('[name="fullName"]').style.borderColor =
+              "var(--primary)";
+            valid = false;
+          }
+
+          // Email — required + format
+          const email = getValue("email");
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!email || !emailRegex.test(email)) {
+            form.querySelector('[name="email"]').style.borderColor =
+              "var(--primary)";
+            valid = false;
+          }
+
+          // Phone — required + exactly 10 digits
+          const phone = getValue("phone");
+          const phoneRegex = /^[6-9]\d{9}$/;
+          if (!phone || !phoneRegex.test(phone)) {
+            form.querySelector('[name="phone"]').style.borderColor =
+              "var(--primary)";
+            valid = false;
+          }
+
+          // Subject — required
+          const subject = getValue("subject");
+          if (!subject) {
+            form.querySelector('[name="subject"]').style.borderColor =
+              "var(--primary)";
+            valid = false;
+          }
+
+          // Message — required
+          const message = getValue("message");
+          if (!message) {
+            form.querySelector('[name="message"]').style.borderColor =
+              "var(--primary)";
+            valid = false;
+          }
+
+          return valid;
+        }
+
         // ---- Contact Form Submit ----
         const form = document.getElementById("contactForm");
 
@@ -854,20 +912,8 @@
             const btn = form.querySelector(".cfs-submit-btn");
             const originalText = btn.textContent;
 
-            // Validation
-            const required = form.querySelectorAll("[required]");
-            let valid = true;
-
-            required.forEach((field) => {
-              field.style.borderColor = "";
-
-              if (!field.value.trim()) {
-                field.style.borderColor = "var(--primary)";
-                valid = false;
-              }
-            });
-
-            if (!valid) return;
+            // Run validation
+            if (!validateForm(form)) return;
 
             btn.textContent = "Sending...";
             btn.disabled = true;
