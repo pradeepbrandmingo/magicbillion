@@ -119,6 +119,7 @@
                   type="tel"
                   placeholder="Phone Number"
                   required
+                  maxlength="10"
                 />
                 <input
                   id="subject"
@@ -1656,7 +1657,6 @@
     </script>
 
     <!-- hero section  -->
-    <!-- hero section  -->
     <script>
       (function () {
         "use strict";
@@ -1696,6 +1696,62 @@
           if (form) {
             form.addEventListener("submit", async function (e) {
               e.preventDefault();
+
+              // ---- Validation ----
+              var nameVal = (
+                document.getElementById("name").value || ""
+              ).trim();
+              var emailVal = (
+                document.getElementById("email").value || ""
+              ).trim();
+              var phoneVal = (
+                document.getElementById("phone").value || ""
+              ).trim();
+              var subjectVal = (
+                document.getElementById("subject").value || ""
+              ).trim();
+              var messageVal = (
+                document.getElementById("message").value || ""
+              ).trim();
+
+              var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+              var phoneRegex = /^[6-9]\d{9}$/;
+
+              [
+                document.getElementById("name"),
+                document.getElementById("email"),
+                document.getElementById("phone"),
+                document.getElementById("subject"),
+                document.getElementById("message"),
+              ].forEach(function (el) {
+                el.style.borderColor = "";
+              });
+
+              var isValid = true;
+
+              if (!nameVal) {
+                document.getElementById("name").style.borderColor = "red";
+                isValid = false;
+              }
+              if (!emailVal || !emailRegex.test(emailVal)) {
+                document.getElementById("email").style.borderColor = "red";
+                isValid = false;
+              }
+              if (!phoneVal || !phoneRegex.test(phoneVal)) {
+                document.getElementById("phone").style.borderColor = "red";
+                isValid = false;
+              }
+              if (!subjectVal) {
+                document.getElementById("subject").style.borderColor = "red";
+                isValid = false;
+              }
+              if (!messageVal) {
+                document.getElementById("message").style.borderColor = "red";
+                isValid = false;
+              }
+
+              if (!isValid) return;
+              // ---- Validation End ----
 
               var btn = form.querySelector(".form-submit-btn");
               var original = btn.textContent;
