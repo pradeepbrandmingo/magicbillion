@@ -1584,6 +1584,7 @@
     </script>
 
     <!-- card data -->
+    <!-- card data -->
     <script>
       (function () {
         "use strict";
@@ -1663,13 +1664,12 @@
           var ALL = getCardData();
           if (!ALL.length) return;
 
-          /* Distribute cards evenly across both rows */
           var half = Math.ceil(ALL.length / 2);
           var row1Cards = ALL.slice(0, half);
           var row2Cards = ALL.slice(half);
-          /* If odd number of cards, repeat last card in row2 so both rows are same length */
-          if (row2Cards.length === 0) row2Cards = row1Cards.slice();
+          if (!row2Cards.length) row2Cards = row1Cards.slice();
 
+          /* ── mini-card builder ── */
           function makeMiniCard(card) {
             var wrap = document.createElement("div");
             wrap.className = "ls-mini-card";
@@ -1707,20 +1707,32 @@
 
             var btn = wrap.querySelector(".ls-mini-expand-btn");
 
-            btn.addEventListener("click", function (e) {
-              e.stopPropagation();
+            function toggleExpand(e) {
+              if (e) e.stopPropagation();
+              var parentRow = wrap.closest(".ls-row");
+              if (parentRow) {
+                parentRow
+                  .querySelectorAll(".ls-mini-card.expanded")
+                  .forEach(function (c) {
+                    if (c !== wrap) {
+                      c.classList.remove("expanded");
+                      var b = c.querySelector(".ls-mini-expand-btn");
+                      if (b) b.setAttribute("aria-label", "Expand");
+                    }
+                  });
+              }
               wrap.classList.toggle("expanded");
               btn.setAttribute(
                 "aria-label",
                 wrap.classList.contains("expanded") ? "Collapse" : "Expand",
               );
-            });
+            }
 
-            /* Touch: tap = expand, swipe = scroll */
+            btn.addEventListener("click", toggleExpand);
+
             var txS = 0,
               tyS = 0,
               moved = false;
-
             wrap.addEventListener(
               "touchstart",
               function (e) {
@@ -1730,42 +1742,39 @@
               },
               { passive: true },
             );
-
             wrap.addEventListener(
               "touchmove",
               function (e) {
                 if (
                   Math.abs(e.touches[0].clientX - txS) > 8 ||
                   Math.abs(e.touches[0].clientY - tyS) > 8
-                ) {
+                )
                   moved = true;
-                }
               },
               { passive: true },
             );
-
             wrap.addEventListener("touchend", function () {
-              if (!moved) {
-                wrap.classList.toggle("expanded");
-                btn.setAttribute(
-                  "aria-label",
-                  wrap.classList.contains("expanded") ? "Collapse" : "Expand",
-                );
-              }
+              if (!moved) toggleExpand(null);
             });
 
             return wrap;
           }
 
-          /*
-           * Populate track with enough clones so infinite loop works.
-           * We render REPS copies; the JS scroll resets at the scrollWidth / REPS boundary.
-           */
-          var REPS = 6; /* must be even so the halfway-reset trick works cleanly */
+          /* ── how many copies needed so 1 set > 2× viewport ── */
+          function calcCopies(numCards) {
+            var vw = window.innerWidth;
+            var cardW = Math.min(0.38 * vw, 160) + 14;
+            var setW = numCards * cardW;
+            /* We want: COPIES * setW  >=  6 * vw  (3 sets on each side of middle) */
+            var needed = Math.ceil((6 * vw) / setW);
+            return Math.max(needed, 8);
+          }
 
           function populateTrack(trackEl, cards) {
             trackEl.innerHTML = "";
-            for (var r = 0; r < REPS; r++) {
+            var copies = calcCopies(cards.length);
+            trackEl._copies = copies;
+            for (var r = 0; r < copies; r++) {
               cards.forEach(function (c) {
                 trackEl.appendChild(makeMiniCard(c));
               });
@@ -1775,229 +1784,129 @@
           populateTrack(track1, row1Cards);
           populateTrack(track2, row2Cards);
 
-          /*
-           * Infinite-scroll engine (pure JS, no CSS animation).
-           *
-           * Strategy:
-           *   – The track contains REPS copies of the card list.
-           *   – "oneSetWidth" = scrollWidth / REPS  (one copy's width).
-           *   – RTL: scroll right; when we've scrolled >= oneSetWidth, jump back by oneSetWidth (seamless).
-           *   – LTR: scroll left; when scrollLeft <= 0, jump forward by oneSetWidth (seamless).
-           *     We start LTR at oneSetWidth so there's room to scroll left from the start.
-           */
-          function startAutoScroll(row, track, direction) {
-            var speed = 0.6; /* px per frame */
-            var paused = false;
-            var userPauseTimer = null;
+          /* ── scroll engine ── */
+          function startRow(row, track, direction, cardList) {
+            var SPEED = 0.6;
             var oneSetWidth = 0;
+            var COPIES = track._copies || 8;
+            var isTouching = false;
+            var isHovered = false;
+            var resumeTimer = null;
+            var clamping = false; /* guard against recursive scroll events */
 
-            function computeOneSet() {
-              /* scrollWidth / REPS gives exactly one set's pixel width */
-              oneSetWidth = track.scrollWidth / REPS;
+            function computeSet() {
+              COPIES = track._copies || 8;
+              oneSetWidth = track.scrollWidth / COPIES;
             }
 
-            function resumeAfterDelay() {
-              if (userPauseTimer) clearTimeout(userPauseTimer);
-              userPauseTimer = setTimeout(function () {
-                if (!row.querySelector(".ls-mini-card.expanded")) {
-                  paused = false;
-                }
-              }, 2000);
+            function hasExpanded() {
+              return !!row.querySelector(".ls-mini-card.expanded");
             }
+
+            /*
+             * REAL-TIME clamp — called on every 'scroll' event.
+             * If scrollLeft drifts outside [oneSetWidth, 2*oneSetWidth)
+             * we silently teleport back to the equivalent position inside the band.
+             * The user sees no jump because the content repeats identically.
+             */
+            function realtimeClamp() {
+              if (!oneSetWidth || clamping) return;
+              var lo = oneSetWidth;
+              var hi = oneSetWidth * 2;
+              if (row.scrollLeft < lo) {
+                clamping = true;
+                row.scrollLeft += oneSetWidth;
+                clamping = false;
+              } else if (row.scrollLeft >= hi) {
+                clamping = true;
+                row.scrollLeft -= oneSetWidth;
+                clamping = false;
+              }
+            }
+
+            /* attach real-time clamp to scroll event */
+            row.addEventListener("scroll", realtimeClamp, { passive: true });
 
             function step() {
-              if (!paused && oneSetWidth > 0) {
-                if (direction === "rtl") {
-                  row.scrollLeft += speed;
-                  if (row.scrollLeft >= oneSetWidth) {
-                    row.scrollLeft -= oneSetWidth;
-                  }
-                } else {
-                  row.scrollLeft -= speed;
-                  if (row.scrollLeft <= 0) {
-                    row.scrollLeft += oneSetWidth;
-                  }
-                }
-              }
-              requestAnimationFrame(step);
-            }
-
-            /* Wait for images to load / layout to settle, then init positions */
-            function init() {
-              computeOneSet();
-              if (direction === "ltr") {
-                /* Start mid-way so we can scroll left immediately */
-                row.scrollLeft = oneSetWidth;
-              } else {
-                row.scrollLeft = 0;
-              }
-              requestAnimationFrame(step);
-            }
-
-            /* Give browser 300ms to paint and compute scrollWidth correctly */
-            setTimeout(init, 300);
-
-            /* Pause on touch, resume after finger lifts */
-            row.addEventListener(
-              "touchstart",
-              function () {
-                paused = true;
-              },
-              { passive: true },
-            );
-
-            row.addEventListener("touchend", function () {
-              resumeAfterDelay();
-            });
-
-            /* Pause when any card inside is expanded */
-            row.addEventListener("click", function () {
-              if (row.querySelector(".ls-mini-card.expanded")) {
-                paused = true;
-              } else {
-                resumeAfterDelay();
-              }
-            });
-
-            /* Recompute on resize */
-            window.addEventListener("resize", function () {
-              computeOneSet();
-            });
-          }
-
-          /* Mouse drag (desktop preview) */
-          function addDrag(row) {
-            var isDown = false,
-              startX = 0,
-              scrollLeft = 0;
-
-            row.addEventListener("mouseenter", function () {
-              /* Pause auto-scroll on hover so hover states work */
-              row._hoverPaused = true;
-            });
-            row.addEventListener("mouseleave", function () {
-              row._hoverPaused = false;
-              isDown = false;
-            });
-            row.addEventListener("mousedown", function (e) {
-              isDown = true;
-              startX = e.pageX - row.offsetLeft;
-              scrollLeft = row.scrollLeft;
-            });
-            row.addEventListener("mouseup", function () {
-              isDown = false;
-            });
-            row.addEventListener("mousemove", function (e) {
-              if (!isDown) return;
-              e.preventDefault();
-              row.scrollLeft =
-                scrollLeft - (e.pageX - row.offsetLeft - startX) * 1.5;
-            });
-          }
-
-          /*
-           * Patch startAutoScroll to respect row._hoverPaused.
-           * Re-define with the extra check baked in.
-           */
-          function startAutoScrollFinal(row, track, direction) {
-            var speed = 0.6;
-            var paused = false;
-            var userPauseTimer = null;
-            var oneSetWidth = 0;
-
-            function computeOneSet() {
-              oneSetWidth = track.scrollWidth / REPS;
-            }
-
-            function resumeAfterDelay() {
-              if (userPauseTimer) clearTimeout(userPauseTimer);
-              userPauseTimer = setTimeout(function () {
-                if (!row.querySelector(".ls-mini-card.expanded")) {
-                  paused = false;
-                }
-              }, 2000);
-            }
-
-            function step() {
-              /* Pause if: user-paused, mouse hovering, or a card is expanded */
-              var shouldPause =
-                paused ||
-                row._hoverPaused ||
-                !!row.querySelector(".ls-mini-card.expanded");
-
-              if (!shouldPause && oneSetWidth > 0) {
-                if (direction === "rtl") {
-                  row.scrollLeft += speed;
-                  if (row.scrollLeft >= oneSetWidth) {
-                    row.scrollLeft -= oneSetWidth;
-                  }
-                } else {
-                  row.scrollLeft -= speed;
-                  if (row.scrollLeft <= 0) {
-                    row.scrollLeft += oneSetWidth;
-                  }
-                }
+              if (
+                !isHovered &&
+                !isTouching &&
+                !hasExpanded() &&
+                oneSetWidth > 0
+              ) {
+                row.scrollLeft += direction === "rtl" ? SPEED : -SPEED;
+                /* auto-scroll boundary wrap (same as clamp but inline for speed) */
+                if (row.scrollLeft >= oneSetWidth * 2)
+                  row.scrollLeft -= oneSetWidth;
+                if (row.scrollLeft < oneSetWidth) row.scrollLeft += oneSetWidth;
               }
               requestAnimationFrame(step);
             }
 
             function init() {
-              computeOneSet();
-              if (direction === "ltr") {
-                row.scrollLeft = oneSetWidth;
-              } else {
-                row.scrollLeft = 0;
-              }
+              computeSet();
+              row.scrollLeft = oneSetWidth; /* start in middle copy */
               requestAnimationFrame(step);
             }
 
-            setTimeout(init, 300);
+            setTimeout(init, 400);
 
+            /* touch pause/resume */
             row.addEventListener(
               "touchstart",
               function () {
-                paused = true;
+                isTouching = true;
+                if (resumeTimer) clearTimeout(resumeTimer);
               },
               { passive: true },
             );
-            row.addEventListener("touchend", function () {
-              resumeAfterDelay();
-            });
+
+            row.addEventListener(
+              "touchend",
+              function () {
+                resumeTimer = setTimeout(function () {
+                  isTouching = false;
+                }, 1200);
+              },
+              { passive: true },
+            );
+
+            /* mouse hover + drag */
+            var isDragging = false,
+              dragX = 0,
+              dragScr = 0;
 
             row.addEventListener("mouseenter", function () {
-              row._hoverPaused = true;
+              isHovered = true;
             });
             row.addEventListener("mouseleave", function () {
-              row._hoverPaused = false;
-              isDown = false;
+              isHovered = false;
+              isDragging = false;
             });
-
-            var isDown = false,
-              startX2 = 0,
-              scrollLeft2 = 0;
-
             row.addEventListener("mousedown", function (e) {
-              isDown = true;
-              startX2 = e.pageX - row.offsetLeft;
-              scrollLeft2 = row.scrollLeft;
+              isDragging = true;
+              dragX = e.pageX;
+              dragScr = row.scrollLeft;
             });
             row.addEventListener("mouseup", function () {
-              isDown = false;
+              isDragging = false;
             });
             row.addEventListener("mousemove", function (e) {
-              if (!isDown) return;
+              if (!isDragging) return;
               e.preventDefault();
-              row.scrollLeft =
-                scrollLeft2 - (e.pageX - row.offsetLeft - startX2) * 1.5;
+              row.scrollLeft = dragScr - (e.pageX - dragX) * 1.5;
             });
 
+            /* recompute on resize */
             window.addEventListener("resize", function () {
-              computeOneSet();
+              populateTrack(track, cardList);
+              computeSet();
+              row.scrollLeft = oneSetWidth;
             });
           }
 
-          startAutoScrollFinal(row1, track1, "rtl");
-          startAutoScrollFinal(row2, track2, "ltr");
+          startRow(row1, track1, "rtl", row1Cards);
+          startRow(row2, track2, "ltr", row2Cards);
         }
 
         function checkMode() {
@@ -2024,7 +1933,6 @@
         }
       })();
     </script>
-
     <!-- 8 -->
     <!-- Ready to Start Your Journey -->
     <script>

@@ -1987,6 +1987,7 @@ button.about-btn {
     width: 100%;
     cursor: grab;
   }
+
   .ls-row::-webkit-scrollbar {
     display: none;
   }
