@@ -485,7 +485,6 @@ body {
   }
 }
 
-/* 1 */
 /* ============================================================
    ABOUT PAGE
 ============================================================ */
@@ -512,15 +511,6 @@ body {
     transform 0.7s ease;
 }
 
-/* .about-text {
-  max-height: 140px;
-  overflow: hidden;
-  transition: max-height 0.5s ease;
-}
-
-.about-text.expanded {
-  max-height: 600px;
-} */
 .about-row.visible {
   opacity: 1;
   transform: translateY(0);
@@ -530,7 +520,7 @@ body {
   flex-direction: row-reverse;
 }
 
-/* ---- Content side ---- */
+/* ---- Content ---- */
 .about-content {
   flex: 1;
 }
@@ -553,6 +543,7 @@ body {
   color: var(--primary);
   margin-bottom: 16px;
 }
+
 .about-text {
   font-family: var(--body-font);
   font-size: 1rem;
@@ -560,26 +551,25 @@ body {
   color: #6b6b6b;
   max-width: 500px;
   margin-bottom: 32px;
-
-  /* max-height: 90px;  */
-  /* overflow: hidden; */
-  /* transition: max-height 0.5s ease; */
 }
 
-/* .about-text.expanded {
-  max-height: 1000px;
-} */
-
-/* Sirf pehli row ka text truncate */
+/* ── First row: clamp to 3 lines with "..." ── */
 .about-row:first-child .about-text {
-  max-height: 90px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  transition: max-height 0.5s ease;
 }
 
+/* Expanded: remove clamp, show full text */
 .about-row:first-child .about-text.expanded {
-  max-height: 1000px;
+  display: block;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+  -webkit-box-orient: unset;
 }
+
+/* ---- Button ---- */
 .about-btn {
   display: inline-block;
   background: var(--secondary);
@@ -604,7 +594,7 @@ button.about-btn {
   font-family: var(--body-font);
 }
 
-/* ---- Image side ---- */
+/* ---- Image ---- */
 .about-image {
   flex: 1;
   overflow: hidden;
@@ -625,7 +615,7 @@ button.about-btn {
 }
 
 /* ============================================================
-   RESPONSIVE — ABOUT
+   RESPONSIVE
 ============================================================ */
 
 @media (max-width: 991px) {
@@ -635,6 +625,14 @@ button.about-btn {
     gap: 36px;
     margin-bottom: 60px;
   }
+
+  /* Full width, no inherited flex sizing */
+  .about-image,
+  .about-content {
+    flex: unset;
+    width: 100%;
+  }
+
   .about-image img {
     height: 300px;
   }
@@ -644,18 +642,39 @@ button.about-btn {
   .about-wrapper {
     padding: 40px 16px 60px;
   }
+
   .main-heading {
-    font-size: clamp(1.6rem, 6vw, 2rem); /* ← yeh add karo */
+    font-size: clamp(1.6rem, 6vw, 2rem);
   }
+
   .about-text {
     font-size: 0.9rem;
+    max-width: 100%;
   }
+
   .about-btn {
     font-size: 0.88rem;
     padding: 12px 26px;
   }
+
+  /* Image: full bleed, no side spacing */
+  .about-image {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border-radius: 16px;
+  }
+
   .about-image img {
-    height: 240px;
+    height: 220px;
+    border-radius: 16px;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  /* 4 lines on small screens */
+  .about-row:first-child .about-text {
+    -webkit-line-clamp: 4;
   }
 }
 
@@ -2164,6 +2183,7 @@ button.about-btn {
 }
 
 /* 8 */
+/* 8 */
 /* ============================================================
    READY TO START YOUR JOURNEY SECTION — add to style.css
 ============================================================ */
@@ -2273,6 +2293,115 @@ button.about-btn {
   transform: translateY(-5px);
   box-shadow: 0 24px 60px rgba(206, 41, 69, 0.24);
 }
+/* ============================================================
+   READY TO START YOUR JOURNEY SECTION
+============================================================ */
+
+.journey {
+  width: 100%;
+  padding: 54px 72px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.journey-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* ---- LEFT: Text ---- */
+.journey-content {
+  flex: 1;
+  max-width: 440px;
+  will-change: transform, opacity;
+}
+
+.journey-title {
+  font-family: var(--heading-font);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1.2;
+  margin-bottom: 18px;
+}
+
+.journey-desc {
+  font-family: var(--body-font);
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.75;
+  margin-bottom: 14px;
+  max-width: 420px;
+}
+
+.journey-pick {
+  font-family: var(--body-font);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 22px;
+}
+
+/* ---- Buttons ---- */
+.journey-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.journey-btn {
+  font-family: var(--body-font);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--white);
+  background: var(--secondary);
+  padding: 12px 28px;
+  border-radius: 50px;
+  text-decoration: none;
+  border: 2px solid var(--secondary);
+  transition: var(--transition);
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.journey-btn:hover {
+  background: transparent;
+  color: var(--secondary);
+}
+
+/* ---- RIGHT: Video Card ---- */
+.journey-card {
+  flex-shrink: 0;
+  width: 480px;
+  height: 236px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 10px 24px rgba(206, 41, 69, 0.1);
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+  will-change: transform, opacity;
+  padding: 0;
+  margin-top: 6px;
+}
+
+.journey-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 24px 60px rgba(206, 41, 69, 0.24);
+}
+
+.journey-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
 /* ============================================================
    RESPONSIVE
@@ -2309,13 +2438,11 @@ button.about-btn {
   .journey {
     padding: 48px 24px;
   }
-
   .journey-inner {
     flex-direction: column;
     align-items: flex-start;
     gap: 32px;
   }
-
   .journey-content {
     max-width: 100%;
   }
@@ -2323,10 +2450,26 @@ button.about-btn {
     max-width: 100%;
   }
 
+  /* Video card: aspect ratio box — no fixed height */
   .journey-card {
     width: 100%;
-    height: 200px;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 */
+    position: relative;
     border-radius: 14px;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+  }
+
+  .journey-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }
 
@@ -2347,31 +2490,25 @@ button.about-btn {
     padding: 11px 22px;
     font-size: 0.84rem;
   }
+
+  /* Keep aspect ratio on small phones */
   .journey-card {
-    height: 170px;
+    padding-bottom: 56.25%;
+    height: 0;
     border-radius: 12px;
   }
 }
 
-.journey-card {
-  flex-shrink: 0;
-  width: 480px;
-  height: 236px;
-  border-radius: 18px;
-  overflow: hidden;
-  background: #000;
+/* ============================================================
+   FOOTER PHONE LINK
+============================================================ */
+.footer-contact-val a {
+  color: inherit;
+  text-decoration: none;
 }
 
-.journey-video {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* pura video dikhega */
-  display: block;
-}
-.journey-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.footer-contact-val a:hover {
+  text-decoration: underline;
 }
 
 /* ============================

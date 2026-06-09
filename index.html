@@ -823,7 +823,8 @@
                   style="color: inherit; text-decoration: none"
                 >
                   +91 9891202828
-                </a></span>
+                </a></span
+              >
             </div>
           </div>
           <div class="footer-contact-item">
@@ -836,12 +837,14 @@
                   href="mailto:admissionsgdp@mbgsa.com"
                   class="footer-email-link"
                 >
-                  admissionsgdp@mbgsa.com </a><br />
+                  admissionsgdp@mbgsa.com </a
+                ><br />
                 <a
                   href="mailto:admissionslta@mbgsa.com"
                   class="footer-email-link"
                 >
-                  admissionslta@mbgsa.com </a><br />
+                  admissionslta@mbgsa.com </a
+                ><br />
                 <a href="mailto:support@mbgsa.com" class="footer-email-link">
                   support@mbgsa.com
                 </a>
@@ -1895,19 +1898,22 @@
     <!-- Ready to Start Your Journey -->
     <script>
       gsap.from(".journey-content", {
-        scrollTrigger: { trigger: ".journey", start: "top 82%" },
+        scrollTrigger: { trigger: ".journey", start: "top 82%", once: true },
         x: -50,
         opacity: 0,
         duration: 0.9,
         ease: "power3.out",
+        clearProps: "all",
       });
       gsap.from(".journey-card", {
-        scrollTrigger: { trigger: ".journey", start: "top 82%" },
-        x: 50,
+        scrollTrigger: { trigger: ".journey", start: "top 82%", once: true },
+        x: window.innerWidth <= 768 ? 0 : 50,
+        y: window.innerWidth <= 768 ? 40 : 0,
         opacity: 0,
         duration: 0.9,
         ease: "power3.out",
         delay: 0.15,
+        clearProps: "all",
       });
     </script>
 

@@ -1790,26 +1790,28 @@
 
     <!-- 8 -->
     <!-- Ready to Start Your Journey -->
-    <!-- 8 -->
-    <!-- Ready to Start Your Journey -->
     <script>
       gsap.from(".journey-content", {
-        scrollTrigger: { trigger: ".journey", start: "top 82%" },
+        scrollTrigger: { trigger: ".journey", start: "top 82%", once: true },
         x: -50,
         opacity: 0,
         duration: 0.9,
         ease: "power3.out",
+        clearProps: "all",
       });
       gsap.from(".journey-card", {
-        scrollTrigger: { trigger: ".journey", start: "top 82%" },
-        x: 50,
+        scrollTrigger: { trigger: ".journey", start: "top 82%", once: true },
+        x: window.innerWidth <= 768 ? 0 : 50,
+        y: window.innerWidth <= 768 ? 40 : 0,
         opacity: 0,
         duration: 0.9,
         ease: "power3.out",
         delay: 0.15,
+        clearProps: "all",
       });
     </script>
 
+<!-- hero section  -->
     <script>
       (function () {
         var btn = document.getElementById("readMoreBtn");
