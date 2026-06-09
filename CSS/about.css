@@ -677,6 +677,14 @@ button.about-btn {
     -webkit-line-clamp: 4;
   }
 }
+@media (max-width: 768px) {
+  .hero-main-title {
+    font-size: clamp(1.6rem, 6vw, 2rem); /* same as about us mobile */
+    br {
+      display: none;
+    }
+  }
+}
 
 /* ============================================================
    MISSION SECTION

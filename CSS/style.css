@@ -266,7 +266,9 @@ body {
 /* ---- TITLE: exactly 3 lines, big font ---- */
 .hero-title {
   font-family: var(--heading-font);
-  font-size: clamp(2.5rem, 4vw, 4.5rem);
+  /* font-size: clamp(2.5rem, 4vw, 4.5rem); */
+  font-size: clamp(2rem, 3.2vw, 3.6rem);
+
   font-weight: 800;
   line-height: 1.18;
   margin-bottom: 20px;
@@ -498,7 +500,7 @@ body {
   }
 
   .hero-title {
-    font-size: clamp(1.7rem, 6vw, 2.2rem);
+    font-size: clamp(1.5rem, 5.5vw, 2rem);
     margin-bottom: 14px;
   }
   .hero-desc {
@@ -524,8 +526,8 @@ body {
   }
 
   .hero-title {
-     margin-top: 20px;
-    font-size: 2rem;
+    margin-top: 20px;
+    font-size: 1.65rem;
     line-height: 1.05;
     margin-bottom: 14px;
   }
@@ -579,7 +581,7 @@ body {
   }
 
   .hero-title {
-    font-size: 1.55rem;
+    font-size: 1.4rem;
   }
 
   .hero-desc {
