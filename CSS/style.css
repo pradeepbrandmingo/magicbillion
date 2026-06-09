@@ -534,7 +534,7 @@ body {
 
   .hero-title {
     margin-top: 20px;
-    font-size: 1.45rem;
+    font-size: 1.65rem; /* 1.45rem se thoda bada */
     line-height: 1.15;
     margin-bottom: 16px;
     letter-spacing: -0.02em;
