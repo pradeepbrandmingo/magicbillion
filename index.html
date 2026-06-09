@@ -1197,12 +1197,10 @@
     ============================ -->
     <script>
       (function () {
-        /* ================================================
-     1. SLIDER LOGIC
-  ================================================ */
         var slides = document.querySelectorAll(".founder-slide");
         var images = document.querySelectorAll(".founder-img");
         var dots = document.querySelectorAll(".founder-dot");
+        var imageWrap = document.querySelector(".founders-image-wrap");
         var current = 0;
         var total = slides.length;
         var timer = null;
@@ -1225,6 +1223,46 @@
           });
         });
 
+        /* ---- Image click — next slide ---- */
+        if (imageWrap) {
+          imageWrap.style.cursor = "pointer";
+          imageWrap.addEventListener("click", function () {
+            goTo((current + 1) % total);
+            resetTimer();
+          });
+        }
+
+        /* ---- Touch swipe on image ---- */
+        var touchStartX = 0;
+        var touchStartY = 0;
+
+        if (imageWrap) {
+          imageWrap.addEventListener(
+            "touchstart",
+            function (e) {
+              touchStartX = e.touches[0].clientX;
+              touchStartY = e.touches[0].clientY;
+            },
+            { passive: true },
+          );
+
+          imageWrap.addEventListener(
+            "touchend",
+            function (e) {
+              var dx = e.changedTouches[0].clientX - touchStartX;
+              var dy = e.changedTouches[0].clientY - touchStartY;
+              if (Math.abs(dx) < 30 || Math.abs(dy) > Math.abs(dx)) return;
+              if (dx < 0) {
+                goTo((current + 1) % total); /* swipe left = next */
+              } else {
+                goTo((current - 1 + total) % total); /* swipe right = prev */
+              }
+              resetTimer();
+            },
+            { passive: true },
+          );
+        }
+
         function startTimer() {
           clearInterval(timer);
           timer = setInterval(function () {
@@ -1239,7 +1277,7 @@
         if (total > 1) startTimer();
 
         /* ================================================
-     2. GSAP ANIMATIONS
+     GSAP ANIMATIONS — bilkul same, kuch nahi badla
   ================================================ */
         if (typeof gsap === "undefined") return;
         gsap.registerPlugin(ScrollTrigger);
@@ -1290,7 +1328,6 @@
             "-=1.2",
           );
 
-        /* Ken-Burns scroll scrub */
         gsap.to(".founders-img", {
           scrollTrigger: {
             trigger: ".founders-image-wrap",

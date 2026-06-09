@@ -524,6 +524,7 @@ body {
   }
 
   .hero-title {
+     margin-top: 20px;
     font-size: 2rem;
     line-height: 1.05;
     margin-bottom: 14px;
