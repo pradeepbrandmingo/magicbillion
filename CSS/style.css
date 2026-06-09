@@ -532,13 +532,13 @@ body {
     width: 100%;
   }
 
-  .hero-title {
+ .hero-title {
     margin-top: 20px;
-    font-size: 2rem;
+    font-size: 1.95rem;
     line-height: 1.08;
     margin-bottom: 16px;
     letter-spacing: -0.02em;
-    max-width: 280px;
+    max-width: 320px; /* 280px se bada */
   }
 
   .title-red,
