@@ -532,20 +532,19 @@ body {
     width: 100%;
   }
 
- .hero-title {
+  .hero-title {
     margin-top: 20px;
     font-size: 1.95rem;
     line-height: 1.08;
     margin-bottom: 16px;
     letter-spacing: -0.02em;
-    max-width: 320px; /* 280px se bada */
+    max-width: 320px;
   }
 
   .title-red,
   .title-blue {
     display: inline;
   }
-}
 
   .hero-title span {
     white-space: normal;
@@ -587,7 +586,6 @@ body {
     );
   }
 }
-
 /* ---- SMALL MOBILE ---- */
 @media (max-width: 360px) {
   .hero {
