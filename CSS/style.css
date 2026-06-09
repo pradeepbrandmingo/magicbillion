@@ -534,12 +534,12 @@ body {
 
   .hero-title {
     margin-top: 20px;
-    font-size: 1.75rem;
+    font-size: 1.45rem;
     line-height: 1.15;
     margin-bottom: 16px;
     letter-spacing: -0.02em;
     white-space: normal;
-    max-width: 58vw;
+    max-width: 75vw; /* 58vw → 75vw */
   }
 
   .hero-title span {
@@ -595,10 +595,10 @@ body {
   }
 
   .hero-title {
-    font-size: 1.65rem;
+    font-size: 1.35rem;
     letter-spacing: -0.01em;
     line-height: 1.12;
-    max-width: 56vw;
+    max-width: 72vw; /* 56vw → 72vw */
   }
 
   .hero-desc {
