@@ -1035,24 +1035,33 @@ button.about-btn {
   .apart-section {
     padding: 50px 20px;
   }
-  .apart-title {
-    font-size: clamp(1.6rem, 6vw, 2rem); /* ← yeh add karo */
+  .apart-top {
+    margin-bottom: 36px;
+  }
+  .apart-subtitle {
+    font-size: 1.05rem;
   }
   .apart-wrapper {
-    gap: 24px;
+    gap: 20px 16px;
   }
   .apart-item {
-    flex: 0 0 calc(50% - 16px);
-    gap: 16px;
-    padding: 14px 8px;
+    flex: 0 0 calc(50% - 12px);
+    gap: 18px;
+    padding: 24px 12px;
+    background: #fafafa;
+    border-radius: 16px;
+    border: 1px solid rgba(206, 41, 69, 0.08);
   }
   .apart-icon {
-    width: 58px;
-    height: 58px;
-    font-size: 1.3rem;
+    width: 72px;
+    height: 72px;
+    font-size: 1.9rem;
+    background: rgba(206, 41, 69, 0.07);
+    border-radius: 50%;
   }
   .apart-item h3 {
-    font-size: 0.84rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
   }
 }
 
@@ -1972,14 +1981,24 @@ button.about-btn {
   }
 
   .ls-row {
-    overflow: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
     width: 100%;
+    cursor: grab;
+  }
+  .ls-row::-webkit-scrollbar {
+    display: none;
+  }
+  .ls-row:active {
+    cursor: grabbing;
   }
 
   .ls-track {
     display: flex;
     gap: 14px;
     width: max-content;
+    padding: 4px 20px;
   }
 
   .ls-row-rtl .ls-track {
@@ -1994,7 +2013,6 @@ button.about-btn {
     animation-play-state: paused;
   }
 
-  /* Pause scroll when any card is expanded */
   .ls-row:has(.ls-mini-card.expanded) .ls-track {
     animation-play-state: paused;
   }
@@ -2016,24 +2034,21 @@ button.about-btn {
     }
   }
 
-  /* ---- Mini Card ---- */
   .ls-mini-card {
     flex-shrink: 0;
     width: 38vw;
     max-width: 160px;
-    overflow: visible; /* allow bio to expand */
+    overflow: visible;
     background: var(--white);
     box-shadow: 0 3px 14px rgba(0, 0, 0, 0.1);
     position: relative;
     z-index: 1;
   }
 
-  /* Expanded card sits above siblings */
   .ls-mini-card.expanded {
     z-index: 20;
   }
 
-  /* Image — still clipped */
   .ls-mini-img {
     width: 100%;
     aspect-ratio: 1 / 1.1;
@@ -2052,12 +2067,11 @@ button.about-btn {
     filter: grayscale(0%);
   }
 
-  /* Content bar */
   .ls-mini-content {
     background: #2e2b2c;
     padding: 8px 10px;
     display: flex;
-    align-items: flex-start; /* top-align so bio expands naturally */
+    align-items: flex-start;
     justify-content: space-between;
     gap: 6px;
     transition: background 0.3s ease;
@@ -2069,7 +2083,6 @@ button.about-btn {
     background: var(--primary);
   }
 
-  /* Text area */
   .ls-mini-text {
     flex: 1;
     min-width: 0;
@@ -2089,7 +2102,6 @@ button.about-btn {
     max-width: 95px;
   }
 
-  /* Role */
   .ls-mini-role {
     font-family: var(--body-font);
     font-size: 0.58rem;
@@ -2102,7 +2114,6 @@ button.about-btn {
     margin-bottom: 0;
   }
 
-  /* Bio — collapsed by default */
   .ls-mini-bio {
     font-family: var(--body-font);
     font-size: 0.62rem;
@@ -2119,14 +2130,12 @@ button.about-btn {
       margin-top 0.3s ease;
   }
 
-  /* Bio visible on expand */
   .ls-mini-card.expanded .ls-mini-bio {
     max-height: 300px;
     opacity: 1;
     margin-top: 6px;
   }
 
-  /* Actions: LinkedIn + expand btn stacked */
   .ls-mini-actions {
     flex-shrink: 0;
     display: flex;
@@ -2135,7 +2144,6 @@ button.about-btn {
     gap: 6px;
   }
 
-  /* LinkedIn icon */
   .ls-mini-li {
     flex-shrink: 0;
     display: flex;
@@ -2150,7 +2158,6 @@ button.about-btn {
     text-decoration: none;
   }
 
-  /* Expand button */
   .ls-mini-expand-btn {
     display: flex;
     align-items: center;
