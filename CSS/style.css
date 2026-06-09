@@ -534,13 +534,18 @@ body {
 
   .hero-title {
     margin-top: 20px;
-    font-size: 1.65rem; /* 1.45rem se thoda bada */
-    line-height: 1.15;
+    font-size: 2rem;
+    line-height: 1.08;
     margin-bottom: 16px;
     letter-spacing: -0.02em;
-    white-space: normal;
-    max-width: 75vw; /* 58vw → 75vw */
+    max-width: 280px;
   }
+
+  .title-red,
+  .title-blue {
+    display: inline;
+  }
+}
 
   .hero-title span {
     white-space: normal;
