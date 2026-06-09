@@ -500,9 +500,16 @@ body {
   }
 
   .hero-title {
-    font-size: clamp(1.5rem, 5.5vw, 2rem);
+    font-size: clamp(1.6rem, 5.8vw, 2.1rem);
     margin-bottom: 14px;
+    line-height: 1.15;
+    white-space: normal;
   }
+
+  .hero-title span {
+    white-space: normal;
+  }
+
   .hero-desc {
     max-width: 100%;
     font-size: 0.875rem;
@@ -520,22 +527,29 @@ body {
   }
 
   .hero-content {
-    padding: 95px 24px 40px;
-    max-width: 320px;
+    padding: 95px 20px 40px;
+    max-width: 100%;
     width: 100%;
   }
 
   .hero-title {
     margin-top: 20px;
-    font-size: 1.65rem;
-    line-height: 1.05;
-    margin-bottom: 14px;
+    font-size: 1.75rem;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+    white-space: normal;
+    max-width: 58vw;
+  }
+
+  .hero-title span {
+    white-space: normal;
   }
 
   .hero-desc {
     font-size: 0.9rem;
     line-height: 1.7;
-    max-width: 290px;
+    max-width: 300px;
     margin-bottom: 22px;
   }
 
@@ -581,7 +595,10 @@ body {
   }
 
   .hero-title {
-    font-size: 1.4rem;
+    font-size: 1.65rem;
+    letter-spacing: -0.01em;
+    line-height: 1.12;
+    max-width: 56vw;
   }
 
   .hero-desc {
@@ -598,7 +615,6 @@ body {
     font-size: 0.75rem;
   }
 }
-
 /* ============================
    FOOTER
 ============================ */
@@ -1132,7 +1148,7 @@ body {
   font-family: var(--body-font);
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--primary);
+  color: var(--secondary);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 12px;
