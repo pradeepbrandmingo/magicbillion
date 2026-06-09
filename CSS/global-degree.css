@@ -834,6 +834,12 @@ section {
   overflow: hidden;
   padding: 44px 2px 24px;
   align-items: flex-start;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.wg-track::-webkit-scrollbar {
+  display: none; /* Chrome / Safari */
 }
 
 /* ── Inner slider (moves via transform) ── */
