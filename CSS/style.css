@@ -510,44 +510,37 @@ body {
 
 /* ---- MOBILE ---- */
 @media (max-width: 480px) {
-  .nav-logo img {
-    height: 42px;
-  }
-
-  .nav-container {
-    padding: 0 20px;
-  }
-
   .hero {
-    min-height: 100vh;
+    min-height: 72vh;
+    height: 72vh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
   }
 
   .hero-content {
-    padding: 135px 20px 120px;
-    max-width: 330px;
+    padding: 95px 24px 40px;
+    max-width: 320px;
     width: 100%;
   }
 
   .hero-title {
-    font-size: clamp(1.75rem, 7vw, 2rem);
-    line-height: 1.08;
-    margin-bottom: 18px;
+    font-size: 2rem;
+    line-height: 1.05;
+    margin-bottom: 14px;
   }
 
   .hero-desc {
-    font-size: 0.88rem;
+    font-size: 0.9rem;
     line-height: 1.7;
-    margin-bottom: 28px;
     max-width: 290px;
+    margin-bottom: 22px;
   }
 
   .hero-actions {
     display: flex;
     flex-wrap: nowrap;
     gap: 10px;
-    align-items: center;
+    margin-top: 0;
   }
 
   .btn-primary,
@@ -558,17 +551,17 @@ body {
   }
 
   .hero-bg img {
-    object-position: 72% center;
-    transform: scale(1.05);
+    object-position: 68% center;
+    transform: scale(1.02);
   }
 
   .hero-bg::after {
     background: linear-gradient(
       to bottom,
-      rgba(240, 240, 240, 0.97) 0%,
-      rgba(240, 240, 240, 0.9) 35%,
-      rgba(240, 240, 240, 0.5) 65%,
-      rgba(240, 240, 240, 0.08) 100%
+      rgba(240, 240, 240, 0.95) 0%,
+      rgba(240, 240, 240, 0.82) 35%,
+      rgba(240, 240, 240, 0.35) 65%,
+      rgba(240, 240, 240, 0.05) 100%
     );
   }
 }
