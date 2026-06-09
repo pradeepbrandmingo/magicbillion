@@ -1584,7 +1584,6 @@
     </script>
 
     <!-- card data -->
-    <!-- card data -->
     <script>
       (function () {
         "use strict";
@@ -1760,12 +1759,10 @@
             return wrap;
           }
 
-          /* ── how many copies needed so 1 set > 2× viewport ── */
           function calcCopies(numCards) {
             var vw = window.innerWidth;
             var cardW = Math.min(0.38 * vw, 160) + 14;
             var setW = numCards * cardW;
-            /* We want: COPIES * setW  >=  6 * vw  (3 sets on each side of middle) */
             var needed = Math.ceil((6 * vw) / setW);
             return Math.max(needed, 8);
           }
@@ -1789,10 +1786,10 @@
             var SPEED = 0.6;
             var oneSetWidth = 0;
             var COPIES = track._copies || 8;
-            var isTouching = false;
+            var isSwiping = false; /* TRUE only during actual finger-drag swipe */
             var isHovered = false;
             var resumeTimer = null;
-            var clamping = false; /* guard against recursive scroll events */
+            var clamping = false;
 
             function computeSet() {
               COPIES = track._copies || 8;
@@ -1803,39 +1800,38 @@
               return !!row.querySelector(".ls-mini-card.expanded");
             }
 
-            /*
-             * REAL-TIME clamp — called on every 'scroll' event.
-             * If scrollLeft drifts outside [oneSetWidth, 2*oneSetWidth)
-             * we silently teleport back to the equivalent position inside the band.
-             * The user sees no jump because the content repeats identically.
-             */
+            /* real-time boundary wrap on every scroll event */
             function realtimeClamp() {
               if (!oneSetWidth || clamping) return;
-              var lo = oneSetWidth;
-              var hi = oneSetWidth * 2;
-              if (row.scrollLeft < lo) {
+              if (row.scrollLeft < oneSetWidth) {
                 clamping = true;
                 row.scrollLeft += oneSetWidth;
                 clamping = false;
-              } else if (row.scrollLeft >= hi) {
+              } else if (row.scrollLeft >= oneSetWidth * 2) {
                 clamping = true;
                 row.scrollLeft -= oneSetWidth;
                 clamping = false;
               }
             }
 
-            /* attach real-time clamp to scroll event */
             row.addEventListener("scroll", realtimeClamp, { passive: true });
 
             function step() {
+              /*
+               * Pause ONLY when:
+               *  1. User is actively swiping (finger moving horizontally)
+               *  2. Mouse is hovering (desktop)
+               *  3. A card is expanded (reading bio)
+               *
+               * A simple tap does NOT pause — isSwiping stays false for taps.
+               */
               if (
+                !isSwiping &&
                 !isHovered &&
-                !isTouching &&
                 !hasExpanded() &&
                 oneSetWidth > 0
               ) {
                 row.scrollLeft += direction === "rtl" ? SPEED : -SPEED;
-                /* auto-scroll boundary wrap (same as clamp but inline for speed) */
                 if (row.scrollLeft >= oneSetWidth * 2)
                   row.scrollLeft -= oneSetWidth;
                 if (row.scrollLeft < oneSetWidth) row.scrollLeft += oneSetWidth;
@@ -1845,18 +1841,38 @@
 
             function init() {
               computeSet();
-              row.scrollLeft = oneSetWidth; /* start in middle copy */
+              row.scrollLeft = oneSetWidth;
               requestAnimationFrame(step);
             }
 
             setTimeout(init, 400);
 
-            /* touch pause/resume */
+            /* ── TOUCH: only pause on actual swipe, not tap ── */
+            var touchStartX = 0,
+              touchStartY = 0,
+              touchMoved = false;
+
             row.addEventListener(
               "touchstart",
-              function () {
-                isTouching = true;
+              function (e) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                touchMoved = false;
                 if (resumeTimer) clearTimeout(resumeTimer);
+              },
+              { passive: true },
+            );
+
+            row.addEventListener(
+              "touchmove",
+              function (e) {
+                var dx = Math.abs(e.touches[0].clientX - touchStartX);
+                var dy = Math.abs(e.touches[0].clientY - touchStartY);
+                /* Only count as swipe if horizontal movement > 10px */
+                if (dx > 10 && dx > dy) {
+                  touchMoved = true;
+                  isSwiping = true;
+                }
               },
               { passive: true },
             );
@@ -1864,9 +1880,15 @@
             row.addEventListener(
               "touchend",
               function () {
-                resumeTimer = setTimeout(function () {
-                  isTouching = false;
-                }, 1200);
+                if (touchMoved) {
+                  /* Was a real swipe — resume after momentum settles */
+                  resumeTimer = setTimeout(function () {
+                    isSwiping = false;
+                  }, 1200);
+                } else {
+                  /* Was a tap — never paused, nothing to resume */
+                  isSwiping = false;
+                }
               },
               { passive: true },
             );
@@ -1897,7 +1919,6 @@
               row.scrollLeft = dragScr - (e.pageX - dragX) * 1.5;
             });
 
-            /* recompute on resize */
             window.addEventListener("resize", function () {
               populateTrack(track, cardList);
               computeSet();
