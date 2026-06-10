@@ -2969,15 +2969,16 @@ section {
   font-size: 52px;
   font-family: var(--heading-font);
   color: var(--primary);
-  line-height: 1;
-  margin-bottom: 12px;
+  line-height: 0.7;
+  margin-bottom: 0px;
   display: block;
 }
 
 .quote-card h3 {
   font-size: 24px;
   color: var(--primary);
-  margin-bottom: 14px;
+  /* margin-top: 0px; */
+  margin-bottom: 10px;
   font-weight: 700;
   line-height: 1.25;
 }
@@ -3043,6 +3044,38 @@ section {
 
   .portrait-card {
     min-height: 280px;
+  }
+  .quote-mark {
+    font-size: 52px;
+    font-family: var(--heading-font);
+    color: var(--primary);
+    line-height: 0.7; /* 1 → 0.7 */
+    margin-bottom: 0;
+    display: block;
+  }
+
+  .quote-card h3 {
+    font-size: 24px;
+    color: var(--primary);
+    margin-bottom: 10px;
+    margin-top: 8px; /* add */
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  @media (max-width: 768px) {
+    .quote-mark {
+      font-size: 40px;
+    }
+    .quote-card h3 {
+      font-size: 20px;
+      margin-top: 6px;
+      margin-bottom: 8px;
+    }
+    .quote-card p {
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
   }
 }
 /* ==========================================
