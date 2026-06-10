@@ -1156,12 +1156,13 @@ section {
 }
 
 .uni-node.highlighted h3 {
-  color: var(--dark);
+  color: var(--primary);
+  font-weight: 700;
 }
 
 .uni-node.highlighted p {
-  color: var(--dark-gray);
-  font-weight: 600;
+  color: var(--gray);
+  font-weight: 400;
 }
 
 .path-arrow {
@@ -2851,6 +2852,9 @@ section {
 /* ==========================================
    WHY CHOOSE US & QUOTE
    ========================================== */
+/* ==========================================
+   WHY CHOOSE US & QUOTE
+   ========================================== */
 .why-choose-section {
   background: #f4f8fc;
   padding: 20px 0 60px;
@@ -2977,10 +2981,11 @@ section {
 .quote-card h3 {
   font-size: 24px;
   color: var(--primary);
-  /* margin-top: 0px; */
   margin-bottom: 10px;
   font-weight: 700;
   line-height: 1.25;
+  word-break: keep-all;
+  overflow-wrap: normal;
 }
 
 .quote-card p {
@@ -3045,37 +3050,29 @@ section {
   .portrait-card {
     min-height: 280px;
   }
+
   .quote-mark {
-    font-size: 52px;
-    font-family: var(--heading-font);
-    color: var(--primary);
-    line-height: 0.7; /* 1 → 0.7 */
+    font-size: 40px;
+    line-height: 0.7;
     margin-bottom: 0;
     display: block;
   }
 
   .quote-card h3 {
-    font-size: 24px;
-    color: var(--primary);
-    margin-bottom: 10px;
-    margin-top: 8px; /* add */
-    font-weight: 700;
-    line-height: 1.25;
+    font-size: 20px;
+    margin-top: 6px;
+    margin-bottom: 8px;
   }
 
-  @media (max-width: 768px) {
-    .quote-mark {
-      font-size: 40px;
-    }
-    .quote-card h3 {
-      font-size: 20px;
-      margin-top: 6px;
-      margin-bottom: 8px;
-    }
-    .quote-card p {
-      font-size: 13px;
-      margin-bottom: 18px;
-    }
+  .quote-card p {
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .quote-card h3 {
+    font-size: 18px;
   }
 }
 /* ==========================================
