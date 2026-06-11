@@ -179,32 +179,66 @@
               source: "Brochure Popup",
             };
 
-            const response = await fetch("/api/lead", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(formData),
-            });
+            let success = false;
+            let errorMsg = "Something went wrong";
 
-            const result = await response.json();
+            try {
+              const response = await fetch("/api/lead", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+              });
 
-            console.log("Popup Lead:", result);
+              if (response.ok) {
+                const result = await response.json();
+                if (result.success) {
+                  success = true;
+                  console.log("Popup Lead:", result);
+                } else {
+                  errorMsg = result.message || errorMsg;
+                }
+              }
+            } catch (e) {
+              console.warn("API route failed, falling back to direct Google Sheets post:", e);
+            }
 
-            submitBtn.textContent = "✓ Sent!";
-            submitBtn.style.backgroundColor = "#2e7d32";
-            submitBtn.style.borderColor = "#2e7d32";
+            if (!success) {
+              try {
+                await fetch("https://script.google.com/macros/s/AKfycbzo4rJgyPvDKPSiSgjxx4opYT-4OAt8ifGncol8wpR9gyTcN_ToerB7Dxsm2OCihvmt/exec", {
+                  method: "POST",
+                  mode: "no-cors",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(formData),
+                });
+                success = true;
+              } catch (err) {
+                console.error("Direct Google Sheets post failed too:", err);
+                errorMsg = err.message || errorMsg;
+              }
+            }
 
-            setTimeout(() => {
-              form.reset();
+            if (success) {
+              submitBtn.textContent = "✓ Sent!";
+              submitBtn.style.backgroundColor = "#2e7d32";
+              submitBtn.style.borderColor = "#2e7d32";
 
-              submitBtn.textContent = originalText;
-              submitBtn.style.backgroundColor = "";
-              submitBtn.style.borderColor = "";
-              submitBtn.disabled = false;
+              setTimeout(() => {
+                form.reset();
 
-              closeModal();
-            }, 2000);
+                submitBtn.textContent = originalText;
+                submitBtn.style.backgroundColor = "";
+                submitBtn.style.borderColor = "";
+                submitBtn.disabled = false;
+
+                closeModal();
+              }, 2000);
+            } else {
+              throw new Error(errorMsg);
+            }
           } catch (error) {
             console.error(error);
 

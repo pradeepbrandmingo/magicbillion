@@ -339,35 +339,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================
-  // 5. HERO FORM SUBMISSION (Demo feedback)
+  // 5. HERO FORM SUBMISSION (Demo feedback removed to prevent conflict with actual submission scripts)
   // ==========================================
-  const heroForm = document.getElementById('hero-message-form');
-  if (heroForm) {
-    heroForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const submitBtn = heroForm.querySelector('.form-submit-btn');
-      const originalText = submitBtn.textContent;
-      
-      submitBtn.textContent = 'Sending...';
-      submitBtn.style.opacity = '0.7';
-      submitBtn.disabled = true;
-      
-      setTimeout(() => {
-        submitBtn.textContent = 'Message Sent!';
-        submitBtn.style.backgroundColor = 'var(--success)';
-        submitBtn.style.color = '#ffffff';
-        
-        setTimeout(() => {
-          heroForm.reset();
-          submitBtn.textContent = originalText;
-          submitBtn.style.backgroundColor = '';
-          submitBtn.style.color = '';
-          submitBtn.style.opacity = '';
-          submitBtn.disabled = false;
-        }, 3000);
-      }, 1200);
-    });
-  }
+
 
   // ==========================================
   // 6. MOBILE HAMBURGER MENU TOGGLE

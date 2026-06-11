@@ -1310,9 +1310,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
-    <script src="./assets/js//script.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+    <script src="./assets/js/script.js"></script>
     <script>
       (function () {
         "use strict";
@@ -1423,18 +1421,20 @@
           delay: 0.1,
         });
 
-        gsap.from(".included-section .section-desc", {
-          scrollTrigger: {
-            trigger: ".included-section",
-            start: "top 78%",
-            once: true,
-          },
-          y: 20,
-          opacity: 0,
-          duration: 0.6,
-          ease: "power3.out",
-          delay: 0.2,
-        });
+        if (document.querySelector(".included-section .section-desc")) {
+          gsap.from(".included-section .section-desc", {
+            scrollTrigger: {
+              trigger: ".included-section",
+              start: "top 78%",
+              once: true,
+            },
+            y: 20,
+            opacity: 0,
+            duration: 0.6,
+            ease: "power3.out",
+            delay: 0.2,
+          });
+        }
 
         /* Cards — clearProps:"all" lagao taaki animation ke baad height reset ho */
         gsap.from(".included-card", {
@@ -1807,6 +1807,9 @@
                 message: document.getElementById("message").value,
               };
 
+              let success = false;
+              let errorMsg = "Something went wrong";
+
               try {
                 const response = await fetch("/api/lead", {
                   method: "POST",
@@ -1816,9 +1819,37 @@
                   body: JSON.stringify(formData),
                 });
 
-                const result = await response.json();
+                if (response.ok) {
+                  const result = await response.json();
+                  if (result.success) {
+                    success = true;
+                  } else {
+                    errorMsg = result.message || errorMsg;
+                  }
+                }
+              } catch (e) {
+                console.warn("API route failed, falling back to direct Google Sheets post:", e);
+              }
 
-                if (result.success) {
+              if (!success) {
+                try {
+                  await fetch("https://script.google.com/macros/s/AKfycbzo4rJgyPvDKPSiSgjxx4opYT-4OAt8ifGncol8wpR9gyTcN_ToerB7Dxsm2OCihvmt/exec", {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(formData),
+                  });
+                  success = true;
+                } catch (err) {
+                  console.error("Direct Google Sheets post failed too:", err);
+                  errorMsg = err.message || errorMsg;
+                }
+              }
+
+              try {
+                if (success) {
                   btn.textContent = "✓ Sent!";
                   btn.style.background = "#2e7d32";
                   btn.style.borderColor = "#2e7d32";
@@ -1834,7 +1865,7 @@
                     btn.style.opacity = "1";
                   }, 2500);
                 } else {
-                  throw new Error(result.message || "Something went wrong");
+                  throw new Error(errorMsg);
                 }
               } catch (error) {
                 console.error("Lead Submit Error:", error);
