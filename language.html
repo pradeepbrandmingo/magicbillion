@@ -150,7 +150,7 @@
                   >
                     <option value="" disabled selected>Select Course</option>
                     <option value="language">Language</option>
-                    <option value="global-degree-program">
+                    <option value="Global Degree Program">
                       Global Degree Program
                     </option>
                   </select>
@@ -1821,13 +1821,13 @@
               }
               var courseVal = document.getElementById("course").value;
 
-              if (!courseVal) {
-                document.getElementById("course").style.borderColor = "red";
+              if (!messageVal) {
+                fields.message.style.borderColor = "red";
                 isValid = false;
               }
 
-              if (!messageVal) {
-                document.getElementById("message").style.borderColor = "red";
+              if (!courseVal) {
+                document.getElementById("course").style.borderColor = "red";
                 isValid = false;
               }
 
@@ -1865,10 +1865,21 @@
 
                 if (response.ok) {
                   const result = await response.json();
-                  if (result.success) {
+
+                  if (
+                    result.success &&
+                    result.salesforce &&
+                    result.salesforce.success
+                  ) {
                     success = true;
+                    console.log("Salesforce Lead Created:", result);
                   } else {
-                    errorMsg = result.message || errorMsg;
+                    errorMsg =
+                      result.salesforce?.errors?.join(", ") ||
+                      result.message ||
+                      errorMsg;
+
+                    console.error("Salesforce Error:", result);
                   }
                 }
               } catch (e) {
