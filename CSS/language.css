@@ -170,7 +170,7 @@ section {
   z-index: 1000;
   padding-top: 18px;
   background: #ffffff; /* CHANGE: transparent → #ffffff */
- 
+
   transition:
     background 0.3s ease,
     box-shadow 0.3s ease;
@@ -332,7 +332,6 @@ section {
   text-align: center;
   padding: 12px 24px;
 }
-
 
 /* ==========================================
    HERO SECTION — Language Page
@@ -756,6 +755,57 @@ section {
   .hero-card-form h3 {
     font-size: 17px;
   }
+}
+
+/* popup dropdown */
+/* Hero form dropdown */
+.hero-select-wrap-row .cfs-select-wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.hero-select-wrap-row .hero-select {
+  width: 100%;
+  padding: 10px 40px 10px 14px;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 10px;
+  background: #f5f5f5;
+  font-family: var(--body-font);
+  font-size: 13px;
+  color: #aaa;
+  outline: none;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+}
+
+.hero-select-wrap-row .hero-select:focus {
+  border-color: #4a8fa8;
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(74, 143, 168, 0.1);
+}
+
+.hero-select-wrap-row .hero-select option {
+  color: #333;
+}
+
+.hero-select-wrap-row .cfs-select-arrow {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ==========================================
@@ -2555,7 +2605,6 @@ section {
     margin-top: 28px;
   }
 }
-
 
 /* ============================
    FOOTER

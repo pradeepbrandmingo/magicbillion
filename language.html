@@ -30,7 +30,9 @@
 
         <nav class="nav-links" id="navLinks">
           <a href="/about.html" class="nav-link">About Us</a>
-          <a href="/language.html" class="nav-link">Language Training Academy</a>
+          <a href="/language.html" class="nav-link"
+            >Language Training Academy</a
+          >
           <a href="/global-degree.html" class="nav-link"
             >Global Degree Program</a
           >
@@ -54,7 +56,9 @@
 
       <div class="mobile-menu" id="mobileMenu">
         <a href="/about.html" class="mobile-link">About Us</a>
-        <a href="/language.html" class="mobile-link">Language Training Academy</a>
+        <a href="/language.html" class="mobile-link"
+          >Language Training Academy</a
+        >
         <a href="/global-degree.html" class="mobile-link"
           >Global Degree Program</a
         >
@@ -135,6 +139,36 @@
                   rows="4"
                   required
                 ></textarea>
+              </div>
+              <div class="form-row full-width hero-select-wrap-row">
+                <div class="cfs-select-wrap">
+                  <select
+                    id="course"
+                    name="course"
+                    class="cfs-select hero-select"
+                    required
+                  >
+                    <option value="" disabled selected>Select Course</option>
+                    <option value="language">Language</option>
+                    <option value="global-degree-program">
+                      Global Degree Program
+                    </option>
+                  </select>
+                  <span class="cfs-select-arrow">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </span>
+                </div>
               </div>
               <button
                 type="submit"
@@ -1762,6 +1796,7 @@
                 document.getElementById("phone"),
                 document.getElementById("subject"),
                 document.getElementById("message"),
+                document.getElementById("course"),
               ].forEach(function (el) {
                 el.style.borderColor = "";
               });
@@ -1784,6 +1819,13 @@
                 document.getElementById("subject").style.borderColor = "red";
                 isValid = false;
               }
+              var courseVal = document.getElementById("course").value;
+
+              if (!courseVal) {
+                document.getElementById("course").style.borderColor = "red";
+                isValid = false;
+              }
+
               if (!messageVal) {
                 document.getElementById("message").style.borderColor = "red";
                 isValid = false;
@@ -1800,11 +1842,13 @@
               btn.style.opacity = "0.75";
 
               const formData = {
-                name: document.getElementById("name").value,
-                email: document.getElementById("email").value,
-                phone: document.getElementById("phone").value,
-                subject: document.getElementById("subject").value,
-                message: document.getElementById("message").value,
+                name: document.getElementById("name").value.trim(),
+                email: document.getElementById("email").value.trim(),
+                phone: document.getElementById("phone").value.trim(),
+                subject: document.getElementById("subject").value.trim(),
+                message: document.getElementById("message").value.trim(),
+                course: document.getElementById("course").value,
+                source: "Hero Form",
               };
 
               let success = false;
@@ -1828,24 +1872,10 @@
                   }
                 }
               } catch (e) {
-                console.warn("API route failed, falling back to direct Google Sheets post:", e);
-              }
-
-              if (!success) {
-                try {
-                  await fetch("https://script.google.com/macros/s/AKfycbzo4rJgyPvDKPSiSgjxx4opYT-4OAt8ifGncol8wpR9gyTcN_ToerB7Dxsm2OCihvmt/exec", {
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(formData),
-                  });
-                  success = true;
-                } catch (err) {
-                  console.error("Direct Google Sheets post failed too:", err);
-                  errorMsg = err.message || errorMsg;
-                }
+                console.warn(
+                  "API route failed, falling back to direct Google Sheets post:",
+                  e,
+                );
               }
 
               try {
