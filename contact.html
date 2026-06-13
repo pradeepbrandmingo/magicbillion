@@ -951,24 +951,10 @@
                   }
                 }
               } catch (e) {
-                console.warn("API route failed, falling back to direct Google Sheets post:", e);
-              }
-
-              if (!success) {
-                try {
-                  await fetch("https://script.google.com/macros/s/AKfycbzo4rJgyPvDKPSiSgjxx4opYT-4OAt8ifGncol8wpR9gyTcN_ToerB7Dxsm2OCihvmt/exec", {
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(formData),
-                  });
-                  success = true;
-                } catch (err) {
-                  console.error("Direct Google Sheets post failed too:", err);
-                  errorMsg = err.message || errorMsg;
-                }
+                console.warn(
+                  "API route failed, falling back to direct Google Sheets post:",
+                  e,
+                );
               }
 
               if (success) {
