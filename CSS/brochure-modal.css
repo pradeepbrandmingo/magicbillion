@@ -72,7 +72,7 @@
   justify-content: center;
   z-index: 11;
   transition: all 0.25s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .brochure-modal-close:hover {
@@ -258,5 +258,72 @@ body.modal-open {
     grid-template-columns: 1fr;
     gap: 10px;
     margin-bottom: 10px;
+  }
+}
+
+/* form form dropdown */
+/* Dropdown - modal ke inputs se match karta hua */
+.brochure-modal-form-wrap .cfs-field-select {
+  width: 100%;
+  min-width: unset;
+  margin-bottom: 14px;
+}
+
+.brochure-modal-form-wrap .cfs-select-wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.brochure-modal-form-wrap .cfs-select {
+  width: 100%;
+  padding: 11px 40px 11px 14px;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 10px;
+  background: #f8f8f8;
+  font-family: var(--body-font);
+  font-size: 13.5px;
+  color: #aaa;
+  outline: none;
+  transition: all 0.25s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+}
+
+.brochure-modal-form-wrap .cfs-select:focus {
+  border-color: var(--secondary);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(74, 149, 199, 0.15);
+}
+
+.brochure-modal-form-wrap .cfs-select option {
+  color: #333;
+}
+
+.brochure-modal-form-wrap .cfs-select-arrow {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .brochure-modal-form-wrap .cfs-field-select {
+    width: 100%;
+  }
+
+  .brochure-modal-form-wrap .cfs-select {
+    font-size: 13px;
+    padding: 10px 36px 10px 12px;
   }
 }

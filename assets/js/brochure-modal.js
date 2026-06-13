@@ -125,6 +125,7 @@
             phone: form.querySelector('[name="phone"]'),
             subject: form.querySelector('[name="subject"]'),
             message: form.querySelector('[name="message"]'),
+            course: form.querySelector('[name="course"]'),
           };
 
           Object.values(fields).forEach((el) => (el.style.borderColor = ""));
@@ -157,6 +158,11 @@
             fields.message.style.borderColor = "red";
             isValid = false;
           }
+          /* ADD THIS */
+          if (!fields.course.value) {
+            fields.course.style.borderColor = "red";
+            isValid = false;
+          }
 
           if (!isValid) return;
           // ---- Validation End ----
@@ -171,11 +177,12 @@
 
           try {
             const formData = {
-              name: form.querySelector('[name="name"]').value,
-              email: form.querySelector('[name="email"]').value,
-              phone: form.querySelector('[name="phone"]').value,
-              subject: form.querySelector('[name="subject"]').value,
-              message: form.querySelector('[name="message"]').value,
+              name: form.querySelector('[name="name"]').value.trim(),
+              email: form.querySelector('[name="email"]').value.trim(),
+              phone: form.querySelector('[name="phone"]').value.trim(),
+              subject: form.querySelector('[name="subject"]').value.trim(),
+              message: form.querySelector('[name="message"]').value.trim(),
+              course: form.querySelector('[name="course"]').value,
               source: "Brochure Popup",
             };
 
@@ -201,24 +208,10 @@
                 }
               }
             } catch (e) {
-              console.warn("API route failed, falling back to direct Google Sheets post:", e);
-            }
-
-            if (!success) {
-              try {
-                await fetch("https://script.google.com/macros/s/AKfycbzo4rJgyPvDKPSiSgjxx4opYT-4OAt8ifGncol8wpR9gyTcN_ToerB7Dxsm2OCihvmt/exec", {
-                  method: "POST",
-                  mode: "no-cors",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify(formData),
-                });
-                success = true;
-              } catch (err) {
-                console.error("Direct Google Sheets post failed too:", err);
-                errorMsg = err.message || errorMsg;
-              }
+              console.warn(
+                "API route failed, falling back to direct Google Sheets post:",
+                e,
+              );
             }
 
             if (success) {
